@@ -1,0 +1,113 @@
+<style lang="less">
+  page {
+    height: 100%;
+    width: 100%;
+  }
+  .authorizeFaceVideo {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    video {
+      height: 100%;
+      width: 100%;
+      display: block;
+      z-index: 100;
+    }
+    .btnBox {
+      width: 100%;
+      position: absolute;
+      bottom: 80rpx;
+      z-index: 1000;
+    }
+    /*#myCanvas {*/
+      /*height: 100%;*/
+      /*width:100%;*/
+    /*}*/
+    /*.canvasBox {*/
+      /*height: 500rpx;*/
+      /*width: 500rpx;*/
+      /*margin: 0rpx auto;*/
+      /*background: #ddd;*/
+    /*}*/
+  }
+</style>
+<template>
+  <view class="authorizeFaceVideo">
+    <!--<video src="" width="100%" height="100%" ></video>-->
+    <view class="canvasBox">
+      <canvas canvas-id="firstCanvas" id="myCanvas" height="200" width="200"></canvas>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import toastInfo from '../components/toastInfo'
+  export default class authorizeFaceVideo extends wepy.page {
+    config = {
+      navigationBarTitleText: '授权征信'
+    };
+    data = {
+    };
+    components = {
+      toastInfo: toastInfo
+    };
+    methods = {
+    };
+    onLoad() {
+      var ctx =wx.createCanvasContext('firstCanvas'); //创建context对象
+      var circ = Math.PI * 2;
+      var quart = Math.PI / 2;
+      var imd = null;
+      var circ = Math.PI * 2;
+      var quart = Math.PI / 2;
+
+      ctx.beginPath();
+      ctx.setStrokeStyle('#99CC33');
+      ctx.setLineCap('square');
+      ctx.closePath();
+      ctx.fill();
+      ctx.setLineWidth(10);
+      imd = wx.canvasGetImageData({
+        canvasId: 'firstCanvas',
+        x: 0,
+        y: 0,
+        width: 240,
+        height: 240,
+        success(res) {
+          console.log(res.width) // 100
+          console.log(res.height) // 100
+          console.log(res.data instanceof Uint8ClampedArray) // true
+          console.log(res.data.length) // 100 * 100 * 4
+        }
+      })
+      function draw(current){
+        wx.canvasPutImageData({
+          canvasId: 'firstCanvas',
+          x: 0,
+          y: 0,
+          width: 1,
+          imd,
+          success(res) {}
+        })
+        ctx.beginPath();
+        ctx.arc(120, 120, 70, -(quart), ((circ) * current) - quart, false);
+        ctx.stroke();
+      }
+//draw(0.6);
+      var t=0;
+      var timer=null;
+      function loadCanvas(now){
+        timer =  setInterval(function(){
+          if(t>now){
+            clearInterval(timer);
+          }else{
+            draw(t);
+            t+=0.01;
+          }
+        },20);
+      }
+      loadCanvas(0.8);
+      timer=null;
+    }
+  }
+</script>

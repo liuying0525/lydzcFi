@@ -1,0 +1,182 @@
+<style lang="less">
+  .authorizeFace {
+    .titleImg {
+      display: block;
+      height: 186rpx;
+      width: 100%;
+      margin-bottom: 6rpx;
+    }
+    .titleText{
+      font-size: 34rpx;
+      text-align: center;
+      margin: 50rpx 0rpx;
+    }
+    .items{
+      width: 596rpx;
+      margin: 0 auto 144rpx;
+    }
+    .textItem{
+      position: relative;
+      width: 100%;
+      height: 66rpx;
+      font-size: 28rpx;
+      margin-bottom: 54rpx;
+      text{
+        float: left;
+        line-height: 66rpx;
+      }
+      .early{
+        color: rgb(96,68,203);
+        position: relative;
+      }
+      .earlyHelp{
+        position: absolute;
+        display: block;
+        right: -30rpx;
+        top: -10rpx;
+        line-height: 26rpx;
+        width: 26rpx;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        text-align: center;
+        border: 1px solid rgb(96,68,203);
+        font-size: 24rpx;
+      }
+      .earlyTime{
+        height: 66rpx;
+        padding:0 20rpx;
+        margin-left: 40rpx;
+      }
+      input{
+        float: right;
+        height: 66rpx;
+        border: 1px solid #ddd;
+        width: 420rpx;
+        padding-left: 20rpx;
+        font-size: 26rpx;
+      }
+    }
+    .errorInfo{
+      position: absolute;
+      right: 320rpx;
+      top: 76rpx;
+      font-size: 24rpx;
+      color: #6043ca;
+      text-align: right;
+    }
+    .getCode {
+      position: absolute;
+      right: 2rpx;
+      top: 2rpx;
+      height:66rpx;
+      width: 150rpx;
+      color: #6043ca;
+      background: #e4eaf2;
+      font-size: 24rpx;
+      text-align: center;
+      line-height: 66rpx;
+      z-index: 100;
+      font-weight: bold;
+    }
+    .getBankNum {
+      z-index: 100;
+      width: 80rpx;
+      position: absolute;
+      right: 2rpx;
+      top: 2rpx;
+      background: #e4eaf2;
+      height: 66rpx;
+      image{
+        display: block;
+        height: 34rpx;
+        width: 37rpx;
+        margin: 16rpx auto;
+      }
+    }
+    .beginBtn {
+      width: 576rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      text-align: center;
+      color: #fff;
+      font-size: 32rpx;
+      -webkit-border-radius: 12rpx;
+      -moz-border-radius: 12rpx;
+      border-radius: 12rpx;
+      background: #6043ca;
+      margin: 90rpx auto 20rpx;
+    }
+    .goBack {
+      width: 576rpx;
+      font-size: 24rpx;
+      color: #6044ca;
+      margin: 0 auto;
+      text-align: right;
+    }
+  }
+</style>
+<template>
+  <view class="authorizeFace">
+    <image class="titleImg" src="{{url_link ? url_link + 'yljq.png' : ''}}"></image>
+    <view class="titleText">客户信息</view>
+    <view class="items">
+      <view class="textItem">
+        <text>客户姓名</text><input type="text" data-name="name" value="{{name}}" disabled/>
+      </view>
+      <view class="textItem">
+        <text>身份证号</text><input type="text" data-name="IdCard" value="{{IdCard}}" disabled/>
+      </view>
+      <view class="textItem">
+        <text>银行卡号</text><input type="text" data-name="bankCard" value="{{bankCard}}" placeholder="请扫描银行卡正面/输入信息"/>
+        <view class="getBankNum">
+          <image src="{{url_link?url_link+'getBank.png':''}}"></image>
+        </view>
+        <view class="errorInfo">招商银行</view>
+      </view>
+      <view class="textItem">
+        <text>身份证号</text><input type="text" data-name="phone" value="{{phone}}" placeholder="请输入银行卡预留手机号码"/>
+      </view>
+      <view class="textItem">
+        <text>验证码</text><input type="text" data-name="code" value="{{code}}" placeholder="请输入短信验证码"/>
+        <view class="getCode">获取验证码</view>
+      </view>
+    </view>
+    <view class="beginBtn" @tap="next">下一步</view>
+    <view class="goBack" @tap="goMine">返回"我的"</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import toastInfo from '../components/toastInfo'
+  export default class authorizeBankcard extends wepy.page {
+    config = {
+      navigationBarTitleText: '征信授权',
+      disableScroll: true
+    };
+    data = {
+      url_link: '',
+      name:'张三',
+      IdCard: '342222196501023698',
+      bankCard: '',
+      phone: '',
+      code: ''
+    };
+    components = {
+      toastInfo:toastInfo
+    };
+    methods = {
+      next: function () {
+        this.$navigate('authorizeComplete');
+      },
+      goMine: function () {
+        wx.reLaunch({
+          url: 'wode'
+        })
+      }
+    };
+    onLoad() {
+      this.url_link = this.$parent.globalData.url_link;
+    }
+  }
+</script>

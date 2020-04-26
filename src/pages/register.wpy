@@ -1,0 +1,1016 @@
+<style lang="less">
+  page {
+    background: #f0f1f5; // width: 98%;
+  }
+
+  .register_one {
+    padding: 0 4%;
+    margin-bottom: 10rpx;
+    background: #fff; // padding-bottom: 90rpx;
+    position: relative;
+  }
+
+  .register_one .register_one_top {
+    font-size: 26rpx;
+    color: #000;
+    line-height: 80rpx;
+    font-weight: bold;
+  }
+
+  .register_one .register_one_body {}
+
+  .register_body_one {
+    display: flex;
+    align-items: center;
+    line-height: 60rpx;
+  }
+
+  .register_one_body .register_yuan {
+    background: rgb(240, 241, 245);
+    color: rgb(56, 56, 56);
+    font-size: 26rpx;
+    line-height: 40rpx;
+    padding: 0 30rpx;
+    border-radius: 20rpx;
+  }
+
+  .register_body_one .register_sj {
+    font-size: 24rpx;
+    color: rgb(77, 77, 77);
+  }
+
+  .register_body_one .register_sj text {
+    color: rgb(255, 53, 53);
+  }
+
+  .one {
+    margin-left: 143rpx;
+  }
+
+  .two {
+    margin-left: 143rpx;
+  }
+
+  .three {
+    margin-left: 143rpx;
+  }
+
+  .four {
+    margin-left: 97rpx;
+  }
+
+  .register_two {
+    // width: 100%;
+    display: flex; // position: absolute;
+  }
+
+  .ai {
+    width: 180rpx;
+    color: rgb(255, 255, 255);
+    font-size: 24rpx;
+    background: rgb(92, 69, 195);
+    line-height: 50rpx;
+    border-radius: 10rpx;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 15rpx;
+  }
+
+  .di {
+    transform: scale(-1, 1); // margin-left: 20rpx;
+    font-size: 20rpx;
+  }
+
+  .dia {
+    font-size: 36rpx;
+  }
+
+  .joio-img {
+    width: 32rpx;
+  }
+
+  .joio-img1 {
+    width: 40rpx;
+    position: absolute;
+    top: 2%;
+    right: 5%;
+  }
+
+  .register_two-lw {
+    position: absolute;
+    right: 9%;
+  }
+
+  .register_two-qd {
+    position: absolute;
+    right: 8%;
+    top: 60%;
+  }
+
+  .register_one_body {
+    margin-bottom: 20rpx;
+  }
+
+  .biaoqi view {
+    width: 40rpx;
+    font-size: 22rpx;
+    position: absolute;
+    top: 3%;
+    right: 4%;
+    color: #fff;
+    line-height: 25rpx;
+  }
+
+  .sf {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+    color: rgb(85, 85, 85);
+    line-height: 100rpx;
+    font-size: 28rpx;
+    background: #fff;
+    border-bottom: 1rpx #eee solid;
+    letter-spacing: 2rpx;
+    width: 92%;
+  }
+
+  .zho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .di1 {
+    transform: scale(-1, 1);
+    margin-left: 20rpx;
+    font-size: 40rpx;
+    color: #555555;
+  }
+
+  .sf .register_one_top {
+    font-size: 28rpx;
+    color: #000;
+    line-height: 28rpx;
+    font-weight: bold;
+  }
+
+  .sf .register_one_top .mingm {
+    font-size: 24rpx;
+    color: #000;
+    line-height: 28rpx;
+    font-weight: normal;
+    margin-left: 20rpx;
+  }
+
+  .sys-biaoti {
+    background: #f0f1f5;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    padding: 0 4%;
+  }
+
+  .phone_selectd_nr_list {
+    width: 15%;
+    line-height: 40rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: #000;
+    border-radius: 5rpx;
+    border: 1px solid #a5a5a5; // padding: 0 10rpx;
+    margin-left: 25rpx; // float: left;
+  }
+
+  //   .phone_selectd_nr_list:nth-child(3n+1){
+  //     margin-right: 0;
+  //   }
+  .ands {
+    display: flex;
+    width: 87%;
+  }
+
+  .dengd {
+    margin-left: 27rpx;
+  }
+
+  .sdsd {
+    display: flex;
+    align-items: center;
+    padding: 0 4%;
+    font-size: 28rpx;
+    margin-bottom: 20rpx;
+  }
+
+  .des .phone_selectd_nr_list {
+    width: 12.3%;
+    line-height: 40rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: #000;
+    border-radius: 5rpx;
+    border: 1px solid #a5a5a5; // padding: 0 10rpx;
+    margin-left: 25rpx; // float: left;
+  }
+
+  .we .phone_selectd_nr_list {
+    width: 12.3%;
+    line-height: 40rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: #000;
+    border-radius: 5rpx;
+    border: 1px solid #a5a5a5; // padding: 0 10rpx;
+    margin-left: 25rpx; // float: left;
+  }
+
+  .des {
+    margin-bottom: 50rpx;
+  }
+
+  .shousuo {
+    display: flex;
+    align-items: center;
+    padding: 0 4%;
+    font-size: 28rpx;
+    line-height: 110rpx;
+  }
+
+  .weui-input {
+    width: 70%;
+    background: #fff;
+    margin-left: 38rpx;
+    padding-left: 15rpx;
+    height: 70rpx;
+  }
+
+  .add_citying {
+    width: 15%;
+    line-height: 40rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: #fff;
+    background: rgb(0, 199, 174);
+    border-radius: 5rpx;
+    border: 1px solid rgb(0, 199, 174); // padding: 0 10rpx;
+    margin-left: 25rpx; // float: left;
+  }
+
+  .orange {
+    width: 20%;
+    line-height: 70rpx;
+    text-align: center;
+
+    border-bottom: 4rpx rgb(92, 69, 195) solid;
+    color: rgb(92, 69, 195);
+    font-weight: bold;
+  }
+
+  .defaulf {
+    width: 20%;
+    line-height: 70rpx;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .nav {
+    width: 90%; // height: 200rpx;
+    display: flex;
+    background-color: #eee;
+    justify-content: space-around;
+    font-size: 24rpx;
+    padding: 0 5%;
+    background: #fff;
+  }
+
+  .show {
+    display: block;
+    background: #f0f1f5;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .change-mima {
+    width: 60%;
+    height: 30pt;
+    border: 1px rgb(92, 69, 195) solid;
+    font-size: 10pt;
+    line-height: 34pt;
+    border-radius: 4pt;
+    padding-left: 20rpx;
+  }
+
+  .index_ssa {
+    width: 70%;
+    height: 50rpx;
+    background: #fff;
+    padding-left: 15rpx;
+    justify-content: center;
+  }
+
+  .kong {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .kong-image1 {
+    width: 250rpx;
+    height: 40rpx;
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    margin-left: -116rpx;
+    margin-top: -20rpx;
+  }
+
+  .kongzi {
+    position: absolute;
+    left: 11%;
+    top: 80%;
+    font-size: 32rpx;
+    color: #333;
+  }
+
+  .register_two-qds {
+    position: absolute;
+    right: 8%;
+    top: 78%;
+  }
+
+  .andsp {
+    display: flex;
+    width: 75%;
+  }
+
+  .andsp .add_citying {
+    width: 14.3%;
+    line-height: 40rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: #fff;
+    background: rgb(0, 199, 174);
+    border-radius: 5rpx;
+    border: 1px solid rgb(0, 199, 174); // padding: 0 10rpx;
+    margin-left: 25rpx; // float: left;
+  }
+
+  .andsp .phone_selectd_nr_list {
+    width: 14.1%;
+    line-height: 40rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: #000;
+    border-radius: 5rpx;
+    border: 1px solid #a5a5a5; // padding: 0 10rpx;
+    margin-left: 24rpx; // float: left;
+  }
+
+</style>
+<template>
+  <view class="sds">
+    <sidebar></sidebar>
+    <dier></dier>
+    <diez></diez>
+    <sidebarck @childFn.user="linkTo"></sidebarck>
+    <view class='sf '>
+      <view class="register_one_top">{{textx.carbrandname}}
+        <text class='mingm'>{{textx.name}}</text>
+      </view>
+      <view class="zho" @tap="cx_btnw({{textx.carseriesid}})">
+        <text class='di1 iconfont  #icon-jiantou'></text>
+      </view>
+    </view>
+    <!--  -->
+    <view>
+      <view class='shousuo'>车价（元）
+        <input class="weui-input " type="number" maxlength="9" name="password" placeholder="" bindinput="userNameInput"
+          bindconfirm="my" placeholder-class="opinion-center" />
+      </view>
+      <view class='nav'>
+        <view class="{{selected?'orange':'defaulf'}}" data-w='w' data-id='0' bindtap='select'>贷款</view>
+        <view class="{{select?'orange':'defaulf'}}" data-y='y' data-id='1' bindtap='select'>直租</view>
+      </view>
+      <!-- tab贷款 -->
+      <view class="{{selected?'show':'hidden'}}">
+        <view>
+          <view class='sys-biaoti'>贷款方案推荐</view>
+          <view class='sdsd'>首付
+            <view class='ands'>
+              <view class="{{_num == 0?'add_citying':'phone_selectd_nr_list'}}" data-zhi="20" data-num="0" bindtap="clickNum">20%</view>
+              <view class="{{_num == 2?'add_citying':'phone_selectd_nr_list'}}" data-zhi="30" data-num="2" bindtap="clickNum">30%</view>
+              <view class="{{_num == 3?'add_citying':'phone_selectd_nr_list'}}" data-zhi="40" data-num="3" bindtap="clickNum">40%</view>
+              <view class="{{_num == 4?'add_citying':'phone_selectd_nr_list'}}" data-zhi="50" data-num="4" bindtap="clickNum">50%</view>
+              <view class="{{_num == 5?'add_citying':'phone_selectd_nr_list'}}" data-zhi="60" data-num="5" bindtap="clickNum">60%</view>
+              <view class="{{_num == 6?'add_citying':'phone_selectd_nr_list'}}" data-zhi="70" data-num="6" bindtap="clickNum">70%</view>
+            </view>
+          </view>
+          <view class='sdsd'>期限
+            <view class='ands'>
+              <view class="{{_numa == 1?'add_citying':'phone_selectd_nr_list'}}" data-zhi="12" data-num="1" bindtap="clickNuma">12月</view>
+              <view class="{{_numa == 2?'add_citying':'phone_selectd_nr_list'}}" data-zhi="18" data-num="2" bindtap="clickNuma">18月</view>
+              <view class="{{_numa == 3?'add_citying':'phone_selectd_nr_list'}}" data-zhi="24" data-num="3" bindtap="clickNuma">24月</view>
+              <view class="{{_numa == 0?'add_citying':'phone_selectd_nr_list'}}" data-zhi="36" data-num="0" bindtap="clickNuma">36月</view>
+              <view class="{{_numa == 5?'add_citying':'phone_selectd_nr_list'}}" data-zhi="48" data-num="5" bindtap="clickNuma">48月</view>
+              <view class="{{_numa == 6?'add_citying':'phone_selectd_nr_list'}}" data-zhi="60" data-num="6" bindtap="clickNuma">60月</view>
+            </view>
+          </view>
+          <view class='sdsd des'>尾款
+            <view class='andsp'>
+              <view class="{{_numb == 0?'add_citying':'phone_selectd_nr_list'}}" data-zhi="0" data-num="0" bindtap="clickNumb">0%</view>
+              <view class="{{_numb == 2?'add_citying':'phone_selectd_nr_list'}}" data-zhi="20" data-num="2" bindtap="clickNumb">20%</view>
+              <view class="{{_numb == 3?'add_citying':'phone_selectd_nr_list'}}" data-zhi="30" data-num="3" bindtap="clickNumb">30%</view>
+              <view class="{{_numb == 4?'add_citying':'phone_selectd_nr_list'}}" data-zhi="40" data-num="4" bindtap="clickNumb">40%</view>
+              <view class="{{_numb == 5?'add_citying':'phone_selectd_nr_list'}}" data-zhi="50" data-num="5" bindtap="clickNumb">50%</view>
+            </view>
+          </view>
+        </view>
+        <block wx:for="{{textx_dk}}" wx:key="key">
+          <view class="register_one">
+            <view class="register_one_top">{{item.name}}</view>
+            <view class="register_one_body">
+              <view class="register_body_one">
+                <view class="register_yuan">首付</view>
+                <view class="register_sj one">
+                  <text>{{item.downpayment}}万</text>
+                  （{{sf}}%）
+                </view>
+              </view>
+              <view class="register_body_one">
+                <view class="register_yuan">尾款</view>
+                <view class="register_sj  two">
+                  <text>{{item.tailmoney}}万</text>
+                  （{{wk}}%）
+                </view>
+              </view>
+              <view class="register_body_one">
+                <view class="register_yuan">月供</view>
+                <view class="register_sj three">
+                  <text>{{item.monthlysupply}}元</text>
+                  /*{{qx}}月
+                </view>
+              </view>
+              <view class="register_body_one">
+                <view class="register_yuan">贷款金额</view>
+                <view class="register_sj four">{{item.minimum_financing_amt}}-{{item.maximum_financing_amt}}万</view>
+              </view>
+            </view>
+            <view class="register_two">
+              <view class="register_two-qd ai" @tap="cx_btnq({{item.financialproductid}},{{password}})">
+                <image class='joio-img' src="image/qd.png" mode='widthFix'></image>
+                月供明细
+                <text class='di iconfont  #icon-jiantou'></text>
+              </view>
+              <!--<view class="register_two-lw ai">-->
+              <!--<text class='dia iconfont  #icon-liwu'></text>-->
+              <!--送一年保险-->
+              <!--<text class='di iconfont  #icon-jiantou'></text>-->
+              <!--</view>-->
+            </view>
+            <!--<view class='biaoqi'>-->
+            <!--<image class='joio-img1' src="image/lx.png" mode='widthFix'></image>-->
+            <!--<view>贷款</view>-->
+            <!--</view>-->
+          </view>
+
+        </block>
+        <view wx:if="{{code=='A00006'?true:false}}">
+          <view class="kong" wx:if="{{textx_dk.length=='0'?true:false}}">
+            <image class="kong-image1" src="image/kon.png" mode='widthFix'></image>
+            <view class="kongzi">暂未找到符合条件的方案,请更换条件再试</view>
+          </view>
+        </view>
+
+      </view>
+    </view>
+
+    <!-- tab直租 -->
+    <view class="{{select?'show':'hidden'}}">
+      <view>
+        <view class='sys-biaoti'>直租方案推荐</view>
+        <view class='sdsd'>首付
+          <view class='ands dengd'>
+            <view class="{{_nume == 0?'add_citying':'phone_selectd_nr_list'}}" data-zhi="0" data-num="0" bindtap="clickNume">0%</view>
+            <view class="{{_nume == 2?'add_citying':'phone_selectd_nr_list'}}" data-zhi="10" data-num="2" bindtap="clickNume">10%</view>
+            <view class="{{_nume == 3?'add_citying':'phone_selectd_nr_list'}}" data-zhi="20" data-num="3" bindtap="clickNume">20%</view>
+            <view class="{{_nume == 4?'add_citying':'phone_selectd_nr_list'}}" data-zhi="30" data-num="4" bindtap="clickNume">30%</view>
+            <view class="{{_nume == 5?'add_citying':'phone_selectd_nr_list'}}" data-zhi="40" data-num="5" bindtap="clickNume">40%</view>
+            <view class="{{_nume == 6?'add_citying':'phone_selectd_nr_list'}}" data-zhi="50" data-num="6" bindtap="clickNume">50%</view>
+          </view>
+        </view>
+        <view class='sdsd'>保证金
+          <view class='ands'>
+            <view class="{{_numc == 0?'add_citying':'phone_selectd_nr_list'}}" data-zhi="0" data-num="0" bindtap="clickNumc">0%</view>
+            <view class="{{_numc == 2?'add_citying':'phone_selectd_nr_list'}}" data-zhi="10" data-num="2" bindtap="clickNumc">10%</view>
+            <view class="{{_numc == 3?'add_citying':'phone_selectd_nr_list'}}" data-zhi="20" data-num="3" bindtap="clickNumc">20%</view>
+            <view class="{{_numc == 4?'add_citying':'phone_selectd_nr_list'}}" data-zhi="30" data-num="4" bindtap="clickNumc">30%</view>
+            <view class="{{_numc == 5?'add_citying':'phone_selectd_nr_list'}}" data-zhi="40" data-num="5" bindtap="clickNumc">40%</view>
+            <view class="{{_numc == 6?'add_citying':'phone_selectd_nr_list'}}" data-zhi="50" data-num="6" bindtap="clickNumc">50%</view>
+          </view>
+        </view>
+        <view class='sdsd we'>期限
+          <view class='andsp dengd'>
+            <view class="{{_numd == 1?'add_citying':'phone_selectd_nr_list'}}" data-zhi="12" data-num="1" bindtap="clickNumd">12月</view>
+            <view class="{{_numd == 2?'add_citying':'phone_selectd_nr_list'}}" data-zhi="24" data-num="2" bindtap="clickNumd">24月</view>
+            <view class="{{_numd == 0?'add_citying':'phone_selectd_nr_list'}}" data-zhi="36" data-num="0" bindtap="clickNumd">36月</view>
+            <view class="{{_numd == 3?'add_citying':'phone_selectd_nr_list'}}" data-zhi="48" data-num="3" bindtap="clickNumd">48月</view>
+            <view class="{{_numd == 4?'add_citying':'phone_selectd_nr_list'}}" data-zhi="60" data-num="4" bindtap="clickNumd">60月</view>
+          </view>
+        </view>
+        <view class='sdsd  des'>尾款比例（%）
+          <input class="index_ssa index_ss" bindinput="NameInput" name="code" type="number" placeholder="请输入0~75之间的数字" maxlength="2"
+            placeholder-class="opinion-center" />
+        </view>
+      </view>
+      <block>
+        <view class="register_one" wx:for="{{textpe}}" wx:key="key">
+          <view class="register_one_top">{{item.name}}</view>
+          <view class="register_one_body">
+            <view class="register_body_one">
+              <view class="register_yuan">首付</view>
+              <view class="register_sj one">
+                <text>{{item.downpayment}}万</text>（{{zzsf}}%）</view>
+
+            </view>
+            <view class="register_body_one">
+              <view class="register_yuan">保证金</view>
+              <view class="register_sj one">
+                <text>{{item.suremoney}}万</text>（{{zzbzj}}%）</view>
+            </view>
+            <view class="register_body_one">
+              <view class="register_yuan">尾款</view>
+              <view class="register_sj  two">
+                <text>{{item.tailmoney}}万</text>（{{poser}}%）</view>
+            </view>
+            <view class="register_body_one">
+              <view class="register_yuan">月供</view>
+              <view class="register_sj three">
+                <text>{{item.monthlysupply}}元</text>/*{{zzqx}}月</view>
+            </view>
+            <!-- <view class="register_body_one">
+                     <view class="register_yuan">贷款金额</view>
+                     <view class="register_sj four">3-50万</view>
+                 </view> -->
+          </view>
+          <view class="register_two">
+            <view class="register_two-qds ai" @tap="cx_zhizhu({{item.financialproductid}},{{password}})">
+              <image class='joio-img' src="image/qd.png" mode='widthFix'></image>月供明细
+              <text class='di iconfont  #icon-jiantou'></text>
+            </view>
+            <!-- <view class="register_two-lw ai"><text class='dia iconfont  #icon-liwu'></text>送一年保险<text class='di iconfont  #icon-jiantou'></text></view> -->
+          </view>
+          <view class='biaoqi'>
+            <image class='joio-img1' src="image/lx.png" mode='widthFix'></image>
+            <view>直租</view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import Sidebar from '../components/sidebar';
+  import Dier from '../components/dier';
+  import Diez from '../components/diez';
+  // 详细页头部车型侧滑页
+  import Sidebarck from '../components/sidebar_ck';
+  export default class register extends wepy.page {
+    config = {
+      navigationBarTitleText: '产品详情'
+    };
+    components = {
+      // 月供明细组件调用
+      sidebar: Sidebar,
+      // 贷款月供明细
+      dier: Dier,
+      // 直租月供明细
+      diez: Diez,
+      // 选择车型组件
+      sidebarck: Sidebarck
+    };
+
+    data = {
+      // 车型车系
+      textx: '',
+      // 产品列表
+      textx_dk: '',
+      // 选择按钮状态
+      _num: 0,
+      _numa: 0,
+      _numb: 0,
+      _numc: 0,
+      _numd: 0,
+      _nume: 0,
+      // tab切换
+      select: false,
+      selected: true,
+      // 车价
+      password: '',
+      // 尾款%
+      poser: '0',
+      downpaymentpercent: 20,
+      loanterm: 36,
+      tailmoneypercent: 0,
+      carmodelid: '',
+      // 默认数据
+      sf: '20',
+      qx: '36',
+      wk: '0',
+      selec: '',
+      textpe: '',
+      zzbzj: '0',
+      zzqx: '36',
+      zzsf: '0',
+      code: ''
+    };
+
+    methods = {
+      // 分享
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        }
+      },
+      // 选择车型车系 
+           linkTo(a) {
+        console.log('主页面：' + a);
+        wx.showLoading({
+          title: '加载中',
+        });
+        let that = this;
+        let carmodelid = a;
+        that.carmodelid = a;
+        let json_link = this.$parent.globalData.json_link;
+        let parent_data = this.$parent.globalData;
+        let access_token = parent_data.access_token;
+        if (access_token != '' && access_token != undefined) {
+          wx.request({
+            url: json_link + '/api/wxapp/fi/conditionselectioncar/info?access_token=' + access_token,
+            data: {
+              carprice: that.data.password,
+              carmodelid: a,
+              downpaymentpercent: that.data.sf,
+              loanterm: that.data.qx,
+              tailmoneypercent: that.data.wk
+            },
+            success: function (data) {
+              setTimeout(function () {
+                wx.hideLoading();
+              }, 1000);
+              console.log(data);
+              console.log(data.data);
+              that.textx = data.data.carmodelJO;
+              that.textx_dk = data.data.financialproductJA;
+              that.code = data.data.code;
+              // this_.text = data.data.data;
+              // // 给数据进行绑定
+              // console.log(data.data.data);
+              that.$apply();
+            }
+          });
+        }
+      },
+      // 车价输入框
+      userNameInput: function (e) {
+        this.password = e.detail.value;
+        // this.sf = e.target.dataset.zhi;
+        console.log(e.target.dataset.zhi);
+        console.log(e);
+        // this.downpaymentpercent = e.target.dataset.zhi;
+        this.publick_function();
+        this.scale_function();
+      },
+      // 尾款
+      NameInput: function (e) {
+        this.poser = e.detail.value;
+
+        // console.log(e.dataset.value);
+        this.scale_function();
+      },
+      cx_btn: function () {
+        this.$invoke('sidebar', 'someMethod');
+      },
+      // 月供明细
+      cx_btnq: function (e, a) {
+        console.log(a)
+        let carmodelid = this.carmodelid;
+        let financialproductid = e;
+        let downpaymentpercent = this.downpaymentpercent;
+        let loanterm = this.loanterm;
+        let tailmoneypercent = this.tailmoneypercent;
+        setTimeout(function () {
+          wx.showLoading({
+            title: '加载中'
+          });
+        }, 1500);
+        let that = this;
+        let parent_data = this.$parent.globalData;
+        let json_link = parent_data.json_link;
+        let access_token = parent_data.access_token;
+        if (parent_data.access_token != '' && parent_data.access_token != undefined) {
+          wx.request({
+            url: json_link + '/api/wxapp/fi/conditionselectioncar/monthlysupplylist?access_token=' +
+              parent_data.access_token,
+            data: {
+              carprice: a,
+              carmodelid: carmodelid,
+              financialproductid: financialproductid,
+              downpaymentpercent: downpaymentpercent,
+              loanterm: loanterm,
+              tailmoneypercent: tailmoneypercent,
+            },
+            success: function (data) {
+              // wx.hideLoading();
+              // console.log(data)
+              setTimeout(function () {
+                wx.hideLoading();
+              }, 2000);
+              that.$invoke('dier', 'someMethod', data);
+            }
+          });
+        }
+      },
+      // 直租月供
+      cx_zhizhu: function (e, a) {
+        console.log(a)
+        let carmodelid = this.carmodelid;
+        let financialproductid = e;
+        setTimeout(function () {
+          wx.showLoading({
+            title: '加载中'
+          });
+        }, 1500);
+        let that = this;
+        let parent_data = this.$parent.globalData;
+        let json_link = parent_data.json_link;
+        let access_token = parent_data.access_token;
+        if (parent_data.access_token != '' && parent_data.access_token != undefined) {
+          wx.request({
+            url: json_link + '/api/wxapp/fi/conditionselectioncar/monthlysupplylistdirectrent?access_token=' +
+              parent_data.access_token,
+            data: {
+              carprice: a,
+              carmodelid: carmodelid,
+              financialproductid: financialproductid,
+              downpaymentpercent: that.zzsf,
+              loanterm: that.zzqx,
+              tailmoneypercent: that.poser
+            },
+            success: function (data) {
+              setTimeout(function () {
+                wx.hideLoading();
+              }, 2000);
+              // console.log(data)
+              that.$invoke('diez', 'someMethod', data);
+            }
+          });
+        }
+      },
+      // cx_btnw: function() {
+      //   this.$invoke('sidebarck','someMethod');
+      // },
+      // 头部车型车系
+      cx_btnw: function (e) {
+        console.log(e)
+        setTimeout(function () {
+          wx.showLoading({
+            title: '加载中'
+          });
+        }, 1500);
+        // let that = this;
+        let parent_data = this.$parent.globalData;
+        let json_link = parent_data.json_link;
+        // let json_link = this.json_link;
+        let this_ = this;
+        wx.request({
+          url: json_link + '/api/wxapp/newcarloan/carmodel/listbycarseries',
+          data: {
+            carseriesid: e,
+          },
+          success: function (data) {
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 2000);
+
+            this_.$invoke('sidebarck', 'someMethod', data);
+          },
+          fail: function () {
+            wx.showToast({
+              title: '网络异常',
+              icon: 'none',
+              // duration: 10000
+            })
+            setTimeout(function () {
+              wx.hideToast()
+            }, 2000)
+            return
+          }
+        });
+      },
+      
+      my(e) {
+        this.sf = e.target.dataset.zhi;
+        console.log(e.target.dataset.zhi);
+        // this.downpaymentpercent = e.target.dataset.zhi;
+        this.publick_function();
+      },
+      // 首付
+      clickNum(e) {
+        this._num = e.target.dataset.num;
+        this.sf = e.target.dataset.zhi;
+        console.log(e.target.dataset.zhi);
+        this.downpaymentpercent = e.target.dataset.zhi;
+        this.publick_function();
+      },
+      // 期限
+      clickNuma(e) {
+        console.log(this.data.password);
+        this._numa = e.target.dataset.num;
+        this.qx = e.target.dataset.zhi;
+        console.log(e.target.dataset.zhi);
+        this.loanterm = e.target.dataset.zhi;
+        this.publick_function();
+      },
+      // 尾款
+      clickNumb(e) {
+        this._numb = e.target.dataset.num;
+        this.wk = e.target.dataset.zhi;
+        console.log(e.target.dataset.zhi);
+        this.tailmoneypercent = e.target.dataset.zhi;
+        this.publick_function();
+      },
+      // 保证金
+      clickNumc(e) {
+        this._numc = e.target.dataset.num;
+        this.zzbzj = e.target.dataset.zhi;
+        this.scale_function();
+      },
+      // 直租首付
+      clickNume(e) {
+        this._nume = e.target.dataset.num;
+        this.zzsf = e.target.dataset.zhi;
+        this.scale_function();
+      },
+      // 直租期限
+      clickNumd(e) {
+        this._numd = e.target.dataset.num;
+        this.zzqx = e.target.dataset.zhi;
+        console.log(this.zzqx)
+        this.scale_function();
+      },
+      // tab切换
+      select(e) {
+        let that = this;
+        let json_link = this.$parent.globalData.json_link;
+        let access_token = this.$parent.globalData.access_token;
+        if ('w' == e.currentTarget.dataset.w) {
+          (this.select = false), (this.selected = true);
+        } else if ('y' == e.currentTarget.dataset.y) {
+          (this.select = true), (this.selected = false);
+          if (access_token != '' && access_token != undefined) {
+
+          }
+        }
+      }
+    };
+    // 产品数据请求
+    scale_function() {
+      setTimeout(function () {
+        wx.showLoading({
+          title: '加载中'
+        });
+        console.log(21313213)
+      }, 1500);
+      let that = this;
+      let json_link = this.$parent.globalData.json_link;
+      let access_token = this.$parent.globalData.access_token;
+      wx.request({
+        url: json_link + '/api/wxapp/fi/conditionselectioncar/infodirectrent?access_token=' + access_token,
+        data: {
+          carprice: that.password,
+          carmodelid: that.carmodelid,
+          downpaymentpercent: that.zzsf,
+          loanterm: that.zzqx,
+          tailmoneypercent: that.poser
+        },
+        success: function (data) {
+          setTimeout(function () {
+            wx.hideLoading();
+          }, 2000);
+          console.log(data);
+          console.log(data.data);
+          that.selec = data.data.carmodelJO;
+          that.textpe = data.data.financialproductJA;
+          that.code = data.data.code;
+          // // 给数据进行绑定
+          console.log(data.data.financialproductJA);
+          that.$apply();
+        }
+      });
+    }
+    // 产品数据请求
+    publick_function() {
+      setTimeout(function () {
+        wx.showLoading({
+          title: '加载中'
+        });
+      }, 1500);
+      console.log(21313213)
+      let that = this;
+      let json_link = this.$parent.globalData.json_link;
+      let access_token = this.$parent.globalData.access_token;
+      wx.request({
+        url: json_link + '/api/wxapp/fi/conditionselectioncar/info?access_token=' + access_token,
+        data: {
+          carprice: that.password,
+          carmodelid: that.carmodelid,
+          downpaymentpercent: that.downpaymentpercent,
+          loanterm: that.loanterm,
+          tailmoneypercent: that.tailmoneypercent
+        },
+        success: function (data) {
+
+          setTimeout(function () {
+            wx.hideLoading();
+          }, 2000);
+          console.log(data);
+          console.log(data.data);
+          that.textx = data.data.carmodelJO;
+          that.textx_dk = data.data.financialproductJA;
+          that.code = data.data.code;
+          // // 给数据进行绑定
+          that.$apply();
+        }
+      });
+    }
+    onLoad(e) {
+      // 首页列表传的车型id
+      setTimeout(function () {
+        wx.showLoading({
+          title: '加载中'
+        });
+      }, 100);
+      let url_link = this.$parent.globalData.url_link;
+      this.url_link = url_link;
+      let that = this;
+      that.carmodelid = e.carmodelid;
+      let json_link = that.$parent.globalData.json_link;
+      let parent_data = that.$parent.globalData;
+      let access_token = parent_data.access_token;
+      // 贷款产品列表
+      if (access_token != '' && access_token != undefined) {
+        wx.request({
+          url: json_link + '/api/wxapp/fi/conditionselectioncar/info?access_token=' + access_token,
+          data: {
+            carprice: that.data.password,
+            carmodelid: e.carmodelid,
+            downpaymentpercent: 20,
+            loanterm: 36,
+            tailmoneypercent: 0
+          },
+          success: function (data) {
+            that.textx = data.data.carmodelJO;
+            that.textx_dk = data.data.financialproductJA;
+            that.code = data.data.code;
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 2000);
+            // // 给数据进行绑定
+            that.$apply();
+          }
+        });
+      }
+      // 直租产品列表
+      if (access_token != '' && access_token != undefined) {
+        wx.request({
+          url: json_link + '/api/wxapp/fi/conditionselectioncar/infodirectrent?access_token=' + access_token,
+          data: {
+            carprice: that.password,
+            carmodelid: e.carmodelid,
+            tailmoneypercent: 0,
+            loanterm: 36,
+            downpaymentpercent: 0
+          },
+          success: function (data) {
+            that.selec = data.data.carmodelJO;
+            that.textpe = data.data.financialproductJA;
+            that.code = data.data.code;
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 2000);
+            // // 给数据进行绑定
+            console.log(data.data.financialproductJA);
+            that.$apply();
+          }
+        });
+      }
+    }
+
+  }
+
+</script>

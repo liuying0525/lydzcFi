@@ -1,0 +1,361 @@
+<style lang="less">
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1550742258579'); /* IE9 */
+  src: url('iconfont.eot?t=1550742258579#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,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') format('woff2'),
+  url('iconfont.woff?t=1550742258579') format('woff'),
+  url('iconfont.ttf?t=1550742258579') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1550742258579#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-liwu:before {
+  content: "\e600";
+}
+
+.icon-dingwei:before {
+  content: "\e7c4";
+}
+
+.icon-dingbu:before {
+  content: "\e76c";
+}
+
+.icon-duigou:before {
+  content: "\e712";
+}
+
+.icon-weixiu:before {
+  content: "\e639";
+}
+
+.icon-careful:before {
+  content: "\e619";
+}
+
+.icon-dingwei1:before {
+  content: "\e675";
+}
+
+.icon-qiche:before {
+  content: "\e71d";
+}
+
+.icon-liuchen:before {
+  content: "\e630";
+}
+
+.icon-wodezuji:before {
+  content: "\e631";
+}
+
+.icon-TFDD-:before {
+  content: "\e606";
+}
+
+.icon-liucheng:before {
+  content: "\e6af";
+}
+
+.icon-kefu:before {
+  content: "\e674";
+}
+
+.icon-zhangdan:before {
+  content: "\ea7a";
+}
+
+.icon-xuanze:before {
+  content: "\e61b";
+}
+
+.icon-shoucang:before {
+  content: "\e602";
+}
+
+.icon-mendian:before {
+  content: "\e623";
+}
+
+.icon-car_hy:before {
+  content: "\e618";
+}
+
+.icon-qiche1:before {
+  content: "\e76b";
+}
+
+.icon-jiang:before {
+  content: "\e616";
+}
+
+.icon-xiala:before {
+  content: "\e663";
+}
+
+.icon-Group:before {
+  content: "\e60c";
+}
+
+.icon-shoucang1:before {
+  content: "\e604";
+}
+
+.icon-zuanshi:before {
+  content: "\e60d";
+}
+
+.icon-paixu:before {
+  content: "\e65c";
+}
+
+.icon-sousuo:before {
+  content: "\e7e2";
+}
+
+.icon-jiantou:before {
+  content: "\e617";
+}
+
+.icon-geren11:before {
+  content: "\e601";
+}
+
+.icon-shanchu:before {
+  content: "\e622";
+}
+
+.icon-bangzhu:before {
+  content: "\e791";
+}
+
+.icon-xiazai:before {
+  content: "\e603";
+}
+
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+export default class extends wepy.app {
+  config = {
+    pages: [
+      // 金融专员登陆
+      'pages/denglu',
+      // 扫一扫
+      'pages/sys',
+      // 已核销卡券
+      'pages/charge',
+      // 我的页面
+      'pages/wode',
+      // 征信授权-人脸识别录制视频
+      'pages/authorizeFaceVideo',
+      // 授权记录
+      'pages/authorizeList',
+      //征信授权 - 人脸识别 截出图像
+      'pages/authorizeFaceFir',
+      // 征信授权开始页
+      'pages/authorizeBegin',
+      // 销售专员登陆
+      'pages/denglu2',
+      // 征信授权 - 银联鉴权
+      'pages/authorizeBankcard',
+      //征信授权 - 授权完成
+      'pages/authorizeComplete',
+      //征信授权-人脸识别 截出图像 和 身份证 对比结果
+      'pages/authorizeFaceSec',
+      //征信授权-人脸识别
+      'pages/authorizeFace',
+      // 征信授权-身份信息
+      'pages/authorizeIdcard',
+      //征信授权 - 授权成功
+      'pages/authorizeSuccess',
+      // 还款卡变更-取消成功
+      'pages/cardCancel',
+      //还款卡变更-个人信息填写
+      'pages/cardPerson',
+      //还款卡变更-列表
+      'pages/cardList',
+      //还款卡变更-申请成功
+      'pages/cardSubmit',
+      // 金融购车列表
+      'pages/straight',
+      // 意见反馈
+      'pages/opinion',
+      // 订单列表
+      'pages/order',
+      // 产品详情
+      'pages/register',
+      // 扫一扫核销
+      'pages/systwo',
+      // 订单详情
+      'pages/details',
+      // 销售账户管理
+      'pages/zhanghu',
+      // 销售账户管理
+      'pages/changegl',
+      // 销售账户管理
+      'pages/chang2',
+      // 品牌列表
+      'pages/pinpai',
+    ],
+    window: {
+        "backgroundTextStyle":"light",
+        "navigationBarBackgroundColor": "#6044ca",
+        "navigationBarTextStyle":"white"
+    }
+  }
+
+  globalData = {
+    login_zt:'',
+    pinpailist:'123123123123',
+    userInfo: null,
+    //红旗优惠券资源地址
+    url_link: 'https://webapi.dongzhengafc.com:9503/images/',
+    // 测试资源地址
+    // url_link: 'http://test-wxapp.dongzhengafc.com/assets/',
+    // 本地测试地址
+    // json_link: 'http://172.16.7.141:8080',
+    // 正式服务器
+    // json_link:'https://wxapp.dongzhengafc.com',//mg
+    // 北京测试地址
+    json_link:'http://test-wxapp.dongzhengafc.com',
+    // 生产地址
+    // json_hqLink: 'https://webapi.dongzhengafc.com:9503',
+    // 测试地址
+    json_hqLink: 'http://test-wxapp.dongzhengafc.com:9093',
+    deng_login:function(){
+       let this_ = this;
+           wx.request({
+              // url拼接
+              url: this.json_link + '/api/wxapp/fi/user/filogin',
+              method: 'POST',
+              header: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              data: {
+                authid: 'dongzheng',
+                authsecret: 'dongzheng',
+                useraccount: this.code,
+                passwd: this.password
+              },
+              // 后台返回值
+              success: function(data) {
+                wx.hideLoading();
+                console.log(data);
+                console.log(data.data.code);
+                if (data.data.code == 'A00006') {
+                  this_.login_zt = 0;
+                  this_.access_token = data.data.access_token;
+                  this_.financialspecialistid = data.data.data.financialspecialistid;
+                  wx.showModal({
+                    title: '账号确认',
+                    content: '您是'+data.data.data.business_partner_nme+'的金融专员',
+                    success(res) {
+                      if (res.confirm) {
+                        wx.showLoading({
+                          title: '登录中'
+                        });
+                        wx.redirectTo({
+                                url: 'straight'
+                              });
+                      } else if (res.cancel){
+                      }
+
+                    }
+                  })
+                  this_.model();
+                }  else{
+                  wx.showToast({
+                    title: data.data.errmsg,
+                    icon: 'none',
+                    duration: 2000
+                  })
+                }
+                // 给数据进行绑定
+                // are.$apply();
+                // console.log(that.textx.name);
+              }
+            });
+     },
+
+    //  获取手机型号
+    model:function(){
+          wx.getSystemInfo({
+ success: function(res) {
+//model中包含着设备信息
+  console.log(res.model)
+
+}
+});
+    },
+    btuBottom:'',
+    // token
+    access_token:'',
+    // 登陆需要的参数
+    code:'',
+    // 登陆password
+    password:'',
+    // 品牌
+    nameors:'品牌',
+    // 品牌按钮
+    pinpaiid:'""'
+
+  };
+
+  constructor () {
+    super();
+    this.use('requestfix')
+  }
+
+  onLaunch() {
+    this.testAsync();
+    wx.setEnableDebug({
+      // 关闭
+    enableDebug: true
+    // enableDebug: false
+})
+  }
+
+  sleep (s) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('promise resolved')
+      }, s * 1000)
+    })
+  }
+
+  async testAsync () {
+    const data = await this.sleep(3)
+    console.log(data)
+  }
+
+  getUserInfo(cb) {
+    const that = this
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo
+    }
+    wepy.getUserInfo({
+      success (res) {
+        that.globalData.userInfo = res.userInfo
+        cb && cb(res.userInfo)
+      }
+    })
+  }
+}
+</script>

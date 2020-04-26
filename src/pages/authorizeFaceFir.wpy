@@ -1,0 +1,207 @@
+<style lang="less">
+  .authorizeFace {
+    .titleImg {
+      display: block;
+      height: 186rpx;
+      width: 100%;
+      margin-bottom: 6rpx;
+    }
+    .titleText{
+      font-size: 32rpx;
+      text-align: center;
+      margin: 55rpx 0rpx 40rpx;
+    }
+    .circleBox{
+      height: 616rpx;
+      width: 572rpx;
+      margin: 0 auto;
+      border: 3rpx solid #eee;
+      -webkit-border-radius: 6rpx;
+      -moz-border-radius: 6rpx;
+      border-radius: 6rpx;
+    }
+    .result{
+      width: 210rpx;
+      margin: 0 auto;
+      font-size: 34rpx;
+      color: #ff4343;
+      text-align: right;
+      background: url("http://test-wxapp.dongzhengafc.com/assets/errorIcon.png")no-repeat;
+      -webkit-background-size: contain;
+      background-size: contain;
+    }
+    .resultSuccess{
+      .result;
+      color: #6044ca;
+      background: url("http://test-wxapp.dongzhengafc.com/assets/successIcon.png")no-repeat;
+      -webkit-background-size: contain;
+      background-size: contain;
+    }
+    .circleProgress_wrapper{
+      width: 360rpx;
+      height: 360rpx;
+      margin: 90rpx auto 78rpx;
+      position: relative;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      /*background: #282a45;*/
+      background: url("http://test-wxapp.dongzhengafc.com/assets/bgCircle.png")no-repeat center;
+      -webkit-background-size: cover;
+      background-size: cover;
+      overflow: hidden;
+    }
+    .userHead {
+      position: absolute;
+      top: 0;
+      display: block;
+      height: 360rpx;
+      width: 360rpx;
+    }
+    .wrapperBox{
+      width: 360rpx;
+      height: 360rpx;
+      -webkit-animation: circleProgress 6s linear infinite forwards;
+    }
+    .wrapper{
+      width: 180rpx;
+      height: 360rpx;
+      position: absolute;
+      top:0;
+      overflow: hidden;
+    }
+    .middle{
+      height: 16rpx;
+      width: 360rpx;
+      display: block;
+      position: absolute;
+      top: 20rpx;
+      -webkit-animation: lightProgress 2s linear infinite forwards;
+    }
+    .right{
+      right:0;
+    }
+    .left{
+      left:0rpx;
+    }
+    .circleProgress{
+      width: 348rpx;
+      height: 348rpx;
+      border:6rpx solid transparent;
+      border-radius: 50%;
+      position: absolute;
+      top:0;
+    }
+    .rightcircle{
+      right:0;
+      border-left:6rpx solid #41d5c4;
+      border-bottom:6rpx solid #41d5c4;
+      -webkit-transform: rotate(135deg);
+    }
+    .leftcircle{
+      left:0;
+      border-right:6rpx solid #41d5c4;
+      border-top:6rpx solid #41d5c4;
+      -webkit-transform: rotate(135deg);
+    }
+    .beginBtn {
+      width: 576rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      text-align: center;
+      color: #fff;
+      font-size: 32rpx;
+      -webkit-border-radius: 12rpx;
+      -moz-border-radius: 12rpx;
+      border-radius: 12rpx;
+      background: #6043ca;
+      margin: 90rpx auto 20rpx;
+    }
+    .goBack {
+      width: 576rpx;
+      font-size: 24rpx;
+      color: #6044ca;
+      margin: 0 auto;
+      text-align: right;
+    }
+    @-webkit-keyframes lightProgress {
+      from {
+        top: 20rpx;
+      }
+      to {
+        top: 340rpx;
+      }
+    }
+    @-webkit-keyframes circleProgress {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+  }
+</style>
+<template>
+  <view class="authorizeFace">
+    <image class="titleImg" src="{{url_link ? url_link + 'rlsb.png' : ''}}"></image>
+    <view class="titleText">人脸识别结果</view>
+    <view class="circleBox">
+      <view class="circleProgress_wrapper">
+        <image class="middle" src="{{url_link?url_link+'light.png':''}}"></image>
+        <image class="userHead" src="{{url_link?url_link+'smile.png':''}}"></image>
+        <view class="wrapperBox">
+          <view class="wrapper right">
+            <view class="circleProgress rightcircle"></view>
+          </view>
+          <view class="wrapper left">
+            <view class="circleProgress leftcircle"></view>
+          </view>
+        </view>
+      </view>
+      <view class="result" wx:if="{{!successInfo}}">识别失败</view>
+      <view class="resultSuccess" wx:if="{{successInfo}}">识别成功</view>
+    </view>
+    <view class="beginBtn" wx:if="{{!successInfo}}" @tap="again">重新录制</view>
+    <view class="beginBtn" wx:if="{{successInfo}}" @tap="next">下一步</view>
+    <view class="goBack" @tap="goMine">返回'我的'</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import toastInfo from '../components/toastInfo'
+  export default class authorizeFaceFir extends wepy.page {
+    config = {
+      navigationBarTitleText: '征信授权',
+      disableScroll: true
+    };
+    data = {
+      url_link: '',
+      successInfo: true,
+      //扫描图片地址
+      userHeadUrl: ''
+    };
+    components = {
+      toastInfo:toastInfo
+    };
+    methods = {
+      goMine: function () {
+        wx.reLaunch({
+          url: 'wode'
+        })
+      },
+      again: function () {
+        wx.navigateBack({
+          delta: 1
+        })
+      },
+      next: function () {
+        console.log('下一步');
+        this.$redirect('authorizeFaceSec');
+      }
+    };
+    onLoad() {
+      this.url_link = this.$parent.globalData.url_link;
+    }
+  }
+</script>

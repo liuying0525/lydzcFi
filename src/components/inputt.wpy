@@ -1,0 +1,78 @@
+<style lang="less">
+  .index_ss_content{
+    display: block;
+    width: 96%;
+    padding: 0 2% 0 2%;
+    height:auto;
+    background-color: #6044ca;
+    overflow: hidden;
+    position: fixed;
+    z-index: 2;
+  }
+  .index_ss{
+    background-color: #fff;
+    font-size: 28rpx;
+    height: 64rpx;
+    color: rgb(116,116,116);
+    border-radius: 10rpx;
+    width: 89.5%;
+    padding-left:75rpx;
+    float: left;
+
+  }
+  .placeholder{
+    color:rgb(116,116,116);
+  }
+  .index_input_ss{
+    position: absolute;
+    width: 30rpx;
+    top:40rpx;
+    left:45rpx;
+  }
+  .index_ss_header{
+    width: 100%;
+    overflow: hidden;
+    height: auto;
+    padding-top: 25rpx;
+    padding-bottom: 25rpx;
+  }
+</style>
+<template>
+  <!--搜索-->
+  <view class="index_ss_content">
+    <view class="index_ss_header">
+      <text class="index_input_ss iconfont icon-sousuo"></text>
+      <input class="index_ss" placeholder-class="placeholder" bindblur="ss_clear" placeholder="请输入品牌或车型" bindconfirm="my" bindinput ="userNameInput"  value="{{userName}}"/>
+    </view>
+  </view>
+</template>
+<script>
+// 销售账号管理搜索
+  import wepy from 'wepy'
+  export default class Sousuo extends wepy.component {
+    data = {
+
+    };
+    props ={
+      title : String
+    }
+    methods = {
+           userNameInput: function(e) {
+                this.userName = e.detail.value;
+              },
+                      my: function() {
+                console.log(this.userName);
+                this.$emit('childFn', this.userName);
+                // wx.setStorage({
+                //   key: 'key',
+                //   data: this.userName
+                // });
+ 
+              
+    },
+    }
+    onLoad(){
+
+    }
+  }
+</script>

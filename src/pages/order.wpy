@@ -1,0 +1,301 @@
+<style lang="less">
+  .nav {
+    width: 90%;
+    display: flex;
+    background-color: #eee;
+    justify-content: space-around;
+    font-size: 24rpx;
+    padding: 0 5%;
+    padding-top: 110rpx;
+    position: relative;
+  }
+
+  .defaulf {
+    width: 20%;
+    line-height: 70rpx;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .orange {
+    width: 20%;
+    line-height: 70rpx;
+    text-align: center;
+    border-bottom: 4rpx rgb(0, 199, 174) solid;
+    color: rgb(92, 69, 195);
+    font-weight: bold;
+  }
+
+  .show {
+    display: block;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .order-te3 {
+    width: 92%;
+    padding: 50rpx 4% 50rpx 4%;
+    border-bottom: 2rpx #eee solid;
+    display: flex;
+    align-items: center;
+    background: #fff;
+  }
+
+  .order-te4 {
+    width: 90%;
+    font-size: 28rpx;
+    color: rgb(82, 82, 82);
+  }
+
+  .order-te5 {
+    font-size: 28rpx;
+    color: #000;
+    margin-top: 10rpx;
+  }
+
+  .daxiao3 {
+    font-size: 34rpx;
+    color: rgb(0, 199, 174);
+    margin-right: 7rpx;
+  }
+
+  .order-te3w {
+    margin-right: 50rpx;
+  }
+
+  .order-te4 .juli {
+    position: absolute;
+    right: 27%;
+  }
+
+  .juli text {
+    color: red;
+  }
+
+  .order-te3e {
+    width: 80%;
+  }
+
+  .jil {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    line-height: 120rpx;
+    padding: 0 5%;
+    color: rgb(0, 0, 0);
+    font-size: 28rpx;
+    border-bottom: 2rpx #eee solid;
+    background: #fff;
+    font-weight: bold;
+  }
+
+  .jil text {
+    margin-left: 20rpx;
+    font-size: 26rpx;
+    color: rgb(77, 77, 77);
+    font-weight: normal;
+  }
+
+  .shijian {
+    font-size: 22rpx;
+    color: rgb(77, 77, 77);
+    font-weight: normal;
+  }
+
+  .phone_selectd_nr {
+    width: 90%;
+    padding: 42rpx 40rpx 20rpx 40rpx;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    overflow: hidden;
+  }
+
+  .phone_selectd_nr_bq {
+    width: 100%;
+    font-size: 24rpx;
+    color: #4c4c4c;
+    margin-bottom: 20rpx;
+  }
+
+  .phone_selectd_nr_list {
+    display: block;
+    width: 30%;
+    height: 50rpx;
+    line-height: 50rpx;
+    text-align: center;
+    font-size: 28rpx;
+    color: #000;
+    border-radius: 8rpx;
+    border: 1px solid #a5a5a5;
+    margin-bottom: 36rpx;
+    float: left;
+  }
+
+  .index_ss {
+    border-radius: 50rpx;
+  }
+
+  .joio-img1 {
+    width: 26rpx;
+    margin-left: 10rpx;
+    position: absolute;
+    bottom: 14%;
+    right: 12%;
+  }
+
+</style>
+<template>
+  <view class="sds">
+    <sousuo></sousuo>
+    <view class='nav'>
+      <view class="{{selected?'orange':'defaulf'}}" data-w='w' bindtap='select'>新申请</view>
+      <view class="{{select?'orange':'defaulf'}}" data-y='y' bindtap='select'>已查看</view>
+      <!-- <image class='joio-img1' src="image/saixuan.png" mode='widthFix'></image> -->
+    </view>
+    <view class="{{selected?'show':'hidden'}}">
+      <view wx:for="{{texts}}" wx:key="key">
+        <!--<view class='jil' @tap='yonh({{item.orderid}})'><view>{{item.userName}}<text>{{item.telNum}}</text></view><view class='shijian'>{{item.createtime}}</view></view>-->
+        <view class='jil' @tap="xq_btn({{item.orderid}})">
+          <view>{{item.reservationname}}
+            <text>{{item.reservationtelnum}}</text>
+          </view>
+          <view class='shijian'>{{item.createtime}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="{{select?'show':'hidden'}}">
+      <!-- <view class="phone_selectd_nr">
+                <view class="phone_selectd_nr_list">未进件</view>
+                <view class="phone_selectd_nr_list">审核中</view>
+                <view class="phone_selectd_nr_list">放款中</view>
+                <view class="phone_selectd_nr_list">放款成功</view>
+                <view class="phone_selectd_nr_list">已取消</view>
+                <view class="phone_selectd_nr_list">已拒绝</view>
+            </view> -->
+      <view wx:for="{{text}}" wx:key="key">
+        <!--<view class='jil' bindtap='yonh'><view>{{item.userName}}<text>{{item.telNum}}</text></view><view class='shijian'>{{item.createtime}}</view></view>-->
+        <view class='jil' @tap="xq_btn({{item.orderid}})">
+          <view>{{item.userName}}
+            <text>{{item.telNum}}</text>
+          </view>
+          <view class='shijian'>{{item.createtime}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import Input from '../components/input';
+  export default class order extends wepy.page {
+    config = {
+      navigationBarTitleText: '订单'
+    };
+    components = {
+      sousuo: Input
+    };
+    data = {
+      url_link: '',
+      // tab切换状态
+      select: false,
+      selected: true,
+      // 新申请订单
+      text: '',
+      // 已查看订单
+      texts: ''
+    };
+    methods = {
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        }
+      },
+      xq_btn(e) {
+        // this.$redirect('details',{orderid:e});
+        wx.navigateTo({
+          url: 'details?orderid=' + e
+        });
+      },
+      yonh(e) {
+        wx.navigateTo({
+          url: 'details?id=' + e
+        });
+      },
+      // tab切换
+      select(e) {
+        if ('w' == e.currentTarget.dataset.w) {
+          (this.select = false), (this.selected = true);
+          let that = this;
+          let json_link = this.$parent.globalData.json_link;
+          let parent_data = this.$parent.globalData;
+          if (parent_data.access_token != '' && parent_data.access_token != undefined) {
+            wx.request({
+              url: json_link + '/api/wxapp/reservationorder/fi/newapproderlist?access_token=' + parent_data.access_token,
+              data: {},
+              success: function (data) {
+                setTimeout(function () {
+                  wx.hideLoading();
+                }, 0);
+                console.log(data);
+                that.texts = data.data.data;
+                // 给数据进行绑定
+                console.log(data.data.data);
+                that.$apply();
+              }
+            });
+          }
+        } else if ('y' == e.currentTarget.dataset.y) {
+          (this.select = true), (this.selected = false);
+          let that = this;
+          let json_link = this.$parent.globalData.json_link;
+          let parent_data = this.$parent.globalData;
+          if (parent_data.access_token != '' && parent_data.access_token != undefined) {
+            wx.request({
+              url: json_link + '/api/wxapp/reservationorder/fi/haveapproderlist?access_token=' + parent_data.access_token,
+              data: {},
+              success: function (data) {
+                setTimeout(function () {
+                  wx.hideLoading();
+                }, 0);
+                console.log(data);
+                that.text = data.data.data;
+                // 给数据进行绑定
+                console.log(data.data.data);
+                that.$apply();
+              }
+            });
+          }
+        }
+      }
+    };
+    onLoad() {
+      wx.showLoading({
+        title: '加载中'
+      });
+      let that = this;
+      let json_link = this.$parent.globalData.json_link;
+      let parent_data = this.$parent.globalData;
+      if (parent_data.access_token != '' && parent_data.access_token != undefined) {
+        wx.request({
+          url: json_link + '/api/wxapp/reservationorder/fi/newapproderlist?access_token=' + parent_data.access_token,
+          data: {},
+          success: function (data) {
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 0);
+            console.log(data);
+            that.texts = data.data.data;
+            // 给数据进行绑定
+            console.log(data.data.data);
+            that.$apply();
+          }
+        });
+      }
+    }
+  }
+
+</script>

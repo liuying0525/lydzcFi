@@ -1,0 +1,239 @@
+<style lang="less">
+  /**index.wxss**/
+
+  page {
+    // width: 90%;
+    margin: 0 auto;
+  }
+
+  .opinion-textarea {
+    width: 96%;
+    height: 30pt;
+    border: 1px rgb(92, 69, 195) solid;
+    margin: 40rpx 0rpx 41rpx 0rpx;
+    font-size: 10pt;
+    line-height: 34pt;
+    border-radius: 4pt;
+    padding-left: 22rpx;
+  }
+
+  .change-mima {
+    width: 60%;
+    height: 30pt;
+    border: 1px rgb(92, 69, 195) solid;
+    font-size: 10pt;
+    line-height: 34pt;
+    border-radius: 4pt;
+    padding-left: 20rpx;
+  }
+
+  .change-yzm {
+    width: 36%;
+    background: rgb(92, 69, 195);
+    color: #fff;
+    font-size: 10pt;
+    line-height: 30pt;
+    margin-top: 2rpx;
+    border-radius: 4pt;
+    margin-left: 24rpx;
+    padding-left: 20rpx;
+  }
+
+  .change-kuan {
+    display: flex;
+    margin-bottom: 120rpx;
+  }
+
+  .opinion-button {
+    width: 90%;
+    background: rgb(92, 69, 195);
+    color: #fff;
+    margin-top: 10%
+  }
+
+  .opinion {}
+
+  .shousuo {
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    font-size: 28rpx;
+    line-height: 135rpx;
+    border-bottom: 5rpx #eee solid
+  }
+
+  .weui-input {
+    width: 78%;
+    background: #fff;
+    margin-left: 38rpx;
+    padding-left: 15rpx;
+    height: 70rpx;
+    border: 1rpx #eee solid; // float : right
+  }
+
+  .weui-inputds {
+    width: 78%;
+    background: #fff;
+    margin-left: 64rpx;
+    padding-left: 15rpx;
+    height: 70rpx;
+    border: 1rpx #eee solid; // float : right
+  }
+
+  .body-view {
+    margin-left: 20rpx;
+  }
+
+</style>
+<template>
+  <view class="testresult">
+    <view class="opinion">
+      <view class='shousuo'>姓名<input bindinput="input_name" class="weui-inputds" placeholder="请输入姓名" placeholder-class="opinion-center" /></view>
+      <view class='shousuo'>手机号<input bindinput="input_tel" class="weui-input" placeholder="输入手机号" placeholder-class="opinion-center" /></view>
+      <view class='shousuo'>账户状态<view class="body-view"><switch checked="{{zt}}" bindchange="switch2Change" /></view></view>
+      <button @tap="formSubmit" class='opinion-button'>提交</button>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class chang2 extends wepy.page {
+    config = {
+      navigationBarTitleText: '销售账户管理'
+    };
+    components = {};
+    data = {
+      zhi: [],
+      // 开关状态
+      zt: true,
+      // 姓名
+      name: '',
+      //手机号
+      tel: '',
+    };
+    methods = {
+      // 分享
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        }
+      },
+      // 姓名点击
+      input_name(e) {
+        var value = e.detail.value;
+        this.name = value;
+        console.log(value);
+      },
+      // 手机号点击
+      input_tel(e) {
+        var value = e.detail.value;
+        this.tel = value;
+        console.log(value);
+      },
+      // 状态点击
+      switch2Change: function (e) {
+        this.zt = e.detail.value;
+        console.log(this.zt);
+      },
+      // 提交按钮
+      formSubmit() {
+        let parent_data = this.$parent.globalData;
+        let this_ = this;
+        // 199开头手机号的验证
+        var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/; //手机正则式
+        // 判断手机号
+        if (!myreg.test(this.tel)) {
+          //验证手机号
+          wx.showToast({
+            title: '手机号有误！',
+            icon: 'none',
+            duration: 1500
+          });
+        } else {
+          let saleuserinfoid = this_.zhi.saleuserinfoid;
+          let mobile = this_.tel;
+          let name = this_.name;
+          if (this_.zt) {
+            console.log(1)
+            let status = 1;
+            wx.request({
+              url: parent_data.json_link + '/api/wxapp/fi/saleusermanage/edit?access_token=' + parent_data.access_token,
+              method: 'POST',
+              header: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              data: {
+                mobile: mobile,
+                name: name,
+                status: status,
+              },
+              success: function (data) {
+                if (data.data.code == 'A00006') {
+                  wx.navigateBack({
+                    delta: 1
+                  });
+                }
+                if (data.data.code == 'A00005') {
+                  wx.showToast({
+                    title: data.data.errmsg,
+                    icon: 'none',
+                    duration: 2000
+                  })
+                }
+                if (data.data.code != 'A00006' && data.data.code != 'A00005') {
+                  wx.showToast({
+                    title: '添加失败',
+                    icon: 'none',
+                    duration: 2000
+                  })
+                }
+              }
+            });
+          } else {
+            console.log(0)
+            let status = 0;
+            wx.request({
+              url: parent_data.json_link + '/api/wxapp/fi/saleusermanage/edit?access_token=' + parent_data.access_token,
+              method: 'POST',
+              header: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              data: {
+                mobile: mobile,
+                name: name,
+                status: status,
+              },
+              success: function (data) {
+                if (data.data.code == 'A00006') {
+                  wx.navigateBack({
+                    delta: 1
+                  });
+                }
+                if (data.data.code == 'A00005') {
+                  wx.showToast({
+                    title: data.data.errmsg,
+                    icon: 'none',
+                    duration: 2000
+                  })
+                }
+                if (data.data.code != 'A00006' && data.data.code != 'A00005') {
+                  wx.showToast({
+                    title: '添加失败',
+                    icon: 'none',
+                    duration: 2000
+                  })
+                }
+              }
+            });
+          }
+          return false;
+        }
+      }
+    };
+    onLoad() {
+
+    }
+  }
+
+</script>

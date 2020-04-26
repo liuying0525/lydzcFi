@@ -1,0 +1,186 @@
+<style lang="less">
+  .details_top {
+    width: 90%;
+    padding: 0 5%;
+    line-height: 100rpx;
+    font-size: 26rpx;
+    display: flex;
+    justify-content: space-between;
+    background: #eee;
+    font-weight: bold;
+  }
+
+  .details_red {
+    width: 90%;
+    padding: 0 5%;
+    line-height: 80rpx;
+    font-size: 26rpx;
+    font-weight: bold;
+  }
+
+  .details_bar {
+    width: 88%;
+    padding: 20rpx 6%;
+    background: #eee;
+    font-size: 26rpx;
+    line-height: 57rpx;
+    color: rgb(56, 56, 56);
+  }
+
+  .details_bar text {
+    margin-left: 30rpx;
+  }
+
+  .details_zi {
+    color: rgb(97, 68, 203);
+  }
+
+  .details {
+    width: 90%;
+    padding: 0 5%;
+    font-size: 24rpx;
+    overflow: hidden;
+  }
+
+  .details text {
+    line-height: 50rpx;
+    background: rgb(0, 199, 174);
+    color: rgb(255, 255, 255);
+    float: right;
+    padding: 0 25rpx;
+    margin-top: 30rpx;
+    border-radius: 8rpx;
+  }
+
+  .details_di {
+    width: 70rpx;
+    font-size: 22rpx;
+    line-height: 50rpx;
+    border: 2rpx rgb(0, 199, 174) solid;
+    color: rgb(0, 199, 174);
+    padding: 4rpx 12rpx;
+    border-radius: 8rpx; //  display: flex
+  }
+
+</style>
+<template>
+  <view class="sds">
+    <view class="details_top">
+      <text>订单详情</text>
+      <!--<text class="details_zi">未进件</text>-->
+    </view>
+    <view class="details_red">申请信息</view>
+    <view class="details_bar">
+      <view>预约人：
+        <text>{{text.reservationname}}</text>
+        <text>{{text.reservationtelnum}}</text>
+      </view>
+      <view>身份证号：
+        <text>{{text.reservationidnumber}}</text>
+      </view>
+      <view>经销商：
+        <text>{{text.businessPartnerName}}</text>
+      </view>
+      <view>车型：
+        <text>{{text.carModelName}}</text>
+      </view>
+      <view>新车价格：
+        <text>{{text.carprice}}</text>元</view>
+      <view>金融产品：
+        <text>{{text.financialproductName}}</text>
+        <text class="details_di">贷款</text>
+      </view>
+      <view>首付金额：
+        <text>{{text.downpaymentPara/10000}}万（20%）</text>
+      </view>
+      <view>月供：
+        <text>{{text.monthlySupply}}*（36月）</text>
+      </view>
+      <view>尾款：
+        <text>{{text.finalPayment}}元（20%）</text>
+      </view>
+    </view>
+    <view class="details_red">订单信息</view>
+    <view class="details_bar">
+      <view>订单号：
+        <text>{{text.ordernumber}}</text>
+      </view>
+      <view>下单时间：
+        <text>{{createtime}}</text>
+      </view>
+      <view>身份证号：
+        <text>{{text.reservationidnumber}}</text>
+      </view>
+      <view>销售人员：
+        <text>{{text.salesmanname}}</text>
+        <text>{{text.salesmancont}}</text>
+      </view>
+    </view>
+    <view class="details">
+      <text>取消订单</text>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class details extends wepy.page {
+    config = {
+      navigationBarTitleText: '订单详情'
+    };
+    components = {};
+
+    data = {
+      // 订单页数据
+      text: '',
+      // 下单时间
+      createtime: ''
+    };
+
+    methods = {
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        }
+      },
+    };
+    onLoad(e) {
+      // e上一个页面传来的orderid用于传参
+      console.log(e.orderid);
+      wx.showLoading({
+        title: '加载中'
+      });
+      let that = this;
+      let json_link = this.$parent.globalData.json_link;
+      let parent_data = this.$parent.globalData;
+      if (parent_data.access_token != '' && parent_data.access_token != undefined) {
+        wx.request({
+          url: json_link + '/api/wxapp/reservationorder/fi/orderdetails/?access_token=' + parent_data.access_token,
+          data: {
+            orderid: e.orderid
+          },
+          success: function (data) {
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 0);
+            console.log(data);
+            that.text = data.data.data;
+            // 时间搓转换
+            var d = new Date(parseInt(data.data.data.createtime));
+            console.log(d.toLocaleString('chinese', {
+              hour12: false
+            }))
+            var sd = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() +
+              ':' + d.getMinutes() + ':' + d.getSeconds();
+            console.log(sd);
+            that.createtime = sd
+            // 给数据进行绑定
+            console.log(data.data);
+            that.$apply();
+          }
+        });
+      };
+    }
+  }
+
+</script>

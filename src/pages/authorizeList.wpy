@@ -1,0 +1,207 @@
+<style lang="less">
+  .authorizeList {
+    .listSearch {
+      width: 555rpx;
+      height: 54rpx;
+      margin: 35rpx auto 70rpx;
+      background: #e1e3f2;
+      -webkit-border-radius: 26rpx;
+      -moz-border-radius: 26rpx;
+      border-radius: 26rpx;
+      padding:0 100rpx 0 30rpx ;
+      position: relative;
+    }
+    .searchInput {
+      display: block;
+      height: 54rpx;
+      width: 500rpx;
+      float: left;
+      font-size: 22rpx;
+      color: #818496;
+    }
+    .searchIcon {
+      font-size: 30rpx;
+      position: absolute;
+      right: 50rpx;
+      top: 10rpx;
+      color: #6044ca;
+    }
+    .listTitle,.listItem {
+      display: flex;
+      height: 72rpx;
+      line-height: 72rpx;
+      text-align: center;
+      font-size: 26rpx;
+      border-bottom: 2rpx solid #b0b3c2;
+      padding: 0 30rpx;
+      .name {
+        flex: 5;
+      }
+      .card {
+        flex: 11;
+      }
+      .time {
+        flex: 6;
+      }
+      .option {
+        flex: 4;
+        color: #6044ca;
+      }
+    }
+    .getMore {
+      padding-top: 50rpx;
+      height: 120rpx;
+      background: #fff;
+      color: #9ea0ac;
+      font-size: 24rpx;
+      text-align: center;
+    }
+    .silver {
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.2);
+      position: fixed;
+      top: 0;
+      z-index: 100;
+      .saveImg {
+        height: 810rpx;
+        width: 594rpx;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 50rpx 40rpx 0;
+        background: #fff;
+        -webkit-border-radius: 6rpx;
+        -moz-border-radius: 6rpx;
+        border-radius: 6rpx;
+        margin: 93rpx auto 0;
+      }
+      image {
+        display: block;
+        height: 640rpx;
+        width: 100%;
+        background: #ccc;
+      }
+      .saveBtn {
+        font-size: 28rpx;
+        color: #6043ca;
+        text-align: center;
+        line-height: 116rpx;
+      }
+      .iconfont {
+        font-size: 26rpx;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="authorizeList">
+    <view class="silver" @tap="getImg" wx:if="{{show}}">
+      <view class="saveImg"  @tap.stop="inner">
+        <image src="./image/cancelS.png"></image>
+        <view class="saveBtn"  @tap.stop="saveImg">保存到相册 <text class="iconfont">&#xe603;</text></view>
+      </view>
+    </view>
+    <view class="listSearch">
+      <input type="text" class="searchInput" placeholder="输入用户身份证即可查询"/>
+      <text class="iconfont searchIcon">&#xe7e2;</text>
+    </view>
+    <view class="listTitle">
+      <view class="name">姓名</view>
+      <view class="card">身份证号</view>
+      <view class="time">授权时间</view>
+      <view class="option" style="color:#000;">授权</view>
+    </view>
+    <view class="listItem">
+      <view class="name">易烊千玺</view>
+      <view class="card">310110*********032</view>
+      <view class="time">2019.01.01</view>
+      <view class="option" @tap="getImg">查看</view>
+    </view>
+    <view class="listItem">
+      <view class="name">张三</view>
+      <view class="card">310110*********032</view>
+      <view class="time">2019.01.01</view>
+      <view class="option" @tap="getImg">查看</view>
+    </view>
+    <view class="getMore"><text>︾ \n</text>获取更多</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import toastInfo from '../components/toastInfo'
+  export default class authorizeList extends wepy.page {
+    config = {
+      navigationBarTitleText: '授权记录'
+    };
+    components = {
+      toastInfo: toastInfo
+    };
+    data = {
+      show: false
+    };
+    methods = {
+      getImg: function () {
+        console.log('outer');
+        this.show = !this.show;
+      },
+      inner: function () {
+        console.log('inner')
+      },
+      saveImg: function () {
+        let that = this;
+        let isFirst = wx.getStorageSync('isFirst') || 0;
+        wx.getSetting({
+          success(res) {
+            if (!res.authSetting['scope.writePhotosAlbum']) {
+              wx.authorize({
+                scope: 'scope.writePhotosAlbum',
+                success() {
+                  console.log('第一次授权了')
+                  that.saveImage();
+                },
+                fail() {
+                  if (isFirst === 0) {
+                    wx.setStorageSync('isFirst',1);
+                  } else {
+                    wx.openSetting({
+                      success: res => {
+                        res.authSetting = {
+                          "scope.writePhotosAlbum": true
+                        }
+                      }
+                    });
+                  }
+                }
+              });
+            } else {
+              console.log('已经授权了')
+              that.saveImage();
+            }
+          }
+        });
+      }
+    };
+    saveImage() {
+      wx.downloadFile({
+        url: 'http://test-wxapp.dongzhengafc.com/assets/cancelS.png',//tempFilePath
+        success(res) {
+          if (res.statusCode === 200) {
+            console.log(res.tempFilePath);
+            wx.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success() {
+                wx.showToast({
+                  title: '保存成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              }
+            })
+            console.log('‘成功了’')
+          }
+        }
+      })
+    }
+  }
+</script>

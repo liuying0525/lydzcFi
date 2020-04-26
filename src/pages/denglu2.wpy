@@ -1,0 +1,366 @@
+<style lang="less">
+  /**index.wxss**/
+
+  page {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .opinion-textarea {
+    //   width: 100%;
+    width: calc(~'100% - 24rpx');
+    height: 30pt;
+    border: 1px rgb(92, 69, 195) solid;
+    margin: 0 0rpx 41rpx 0rpx;
+    font-size: 10pt;
+    line-height: 34pt;
+    border-radius: 4pt;
+    padding-left: 20rpx;
+  }
+
+  .change-mima {
+    width: calc(~'100% - 24rpx');
+    height: 30pt;
+    border: 1px rgb(92, 69, 195) solid;
+    font-size: 10pt;
+    line-height: 34pt;
+    border-radius: 4pt;
+    padding-left: 20rpx;
+  }
+
+  .change-kuan {
+    display: flex;
+    margin-bottom: 120rpx;
+  }
+
+  .opinion-button {
+    width: 100%;
+    background: rgb(92, 69, 195);
+    color: #fff;
+  }
+
+  .dw {
+    display: flex;
+    align-items: center;
+    padding: 20%;
+  }
+
+  .joio-img1 {
+    width: 140rpx;
+    height: 150rpx;
+    margin: 0 auto;
+  }
+
+  page {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .opinion-textarea {
+    width: 96%;
+    height: 80rpx;
+    border: 1px rgb(92, 69, 195) solid;
+    margin: 40rpx 0rpx 41rpx 0rpx;
+    font-size: 30rpx;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+    padding-left: 20rpx;
+  }
+
+  .change-mima {
+    width: 60%;
+    height: 80rpx;
+    border: 2rpx rgb(92, 69, 195) solid;
+    font-size: 30rpx;
+    line-height: 80pt;
+    border-radius: 10rpx;
+    padding-left: 20rpx;
+  }
+
+  .change-yzm {
+    width: 36%;
+    background: rgb(92, 69, 195);
+    color: #fff;
+    font-size: 30rpx;
+    line-height: 80rpx;
+    margin-top: 2rpx;
+    border-radius: 10rpx;
+    margin-left: 24rpx;
+    padding-left: 29rpx;
+  }
+
+  .timer {
+    text-align: center;
+    padding-left: 0;
+    color: #000;
+    background-color: #e8e8e8;
+  }
+
+  /* .opinion-center {margin-left: 20rpx } */
+
+  .change-kuan {
+    display: flex;
+    margin-bottom: 34rpx;
+  }
+
+  .opinion-button {
+    width: 100%;
+    background: rgb(92, 69, 195);
+    color: #fff;
+  }
+
+  .xs {
+    margin-bottom: 40rpx;
+    font-size: 28rpx;
+    color: rgb(92, 69, 195);
+    text-decoration: underline;
+  }
+
+  .ds {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40rpx;
+  }
+
+</style>
+<template>
+  <view class="testresult">
+    <userinfo_alert @childFn.user="alert_userinfo" text_zhi="东正请求授权登录"></userinfo_alert>
+    <alert_l @childFn.user="alert_tel" text_zhi="东正请求授权手机号"></alert_l>
+    <view class='dw'>
+      <image class='joio-img1' src="image/logo.png" mode='widthFix'></image>
+    </view>
+    <view class="testresult">
+      <view class="opinion">
+        <form bindsubmit="formSubmit">
+          <input name="code" type='number' bindinput="tel_input" placeholder="请输入手机号" maxlength='11' class='opinion-textarea' placeholder-class="opinion-center"/>
+          <view class='change-kuan'>
+            <input bindinput="yzm_input" name="password" placeholder="请输入验证码" placeholder-class="opinion-center" class='change-mima ' />
+            <button class='change-yzm' @tap="yzm_btn" wx:if="{{!yzm_zt}}">{{time_sj}}</button>
+            <view class="change-yzm timer" wx:else>{{timeNum}}</view>
+          </view>
+          <button formType="submit" class='opinion-button' disabled="{{disabled}}" bindtap="urlPersonal">登录</button>
+          <!-- <view @tap="xs" class="xs"></view> -->
+          <view class="ds">
+            <view @tap="xs" class="xs">金融专员登录</view>
+            <view @tap="tap_tel" class="xs">联系客服</view>
+          </view>
+        </form>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class denglu2 extends wepy.page {
+    config = {
+      navigationBarTitleText: '销售人员登录'
+    };
+    components = {};
+
+    data = {
+      // code获取
+      code: '',
+      // 密码获取
+      password: '',
+      // 全局路径
+      json_link: '',
+      // 手机号
+      input_tel: '',
+      // 验证码
+      this_yzm: '',
+      time_sj: '获取验证码',
+      // true 正在发送验证码
+      yzm_zt: false,
+      // 计时器的值
+      timeNum: 60,
+      // 计时器
+      timer: null,
+      // 销售人员登录判断
+      disabled: '',
+      postruse: true
+    };
+
+    methods = {
+      // 客服电话
+      tap_tel() {
+        wx.makePhoneCall({
+          phoneNumber: '400-920-7258' //仅为示例，并非真实的电话号码
+        });
+      },
+      // 分享
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu2'
+        };
+      },
+      // 切换金融登录页面
+      xs() {
+        wx.redirectTo({
+          url: 'denglu'
+        });
+      },
+      // 获取验证码
+      yzm_btn() {
+        if (!this.yzm_zt) {
+          if (!this.input_tel) {
+            wx.showToast({
+              title: '请输入正确手机号',
+              icon: 'none'
+            });
+            return false;
+          }
+          let json_link = this.$parent.globalData.json_link;
+          let this_ = this;
+          console.log(this_.isPoneAvailable(this_.input_tel));
+          if (this_.isPoneAvailable(this_.input_tel)) {
+            wx.request({
+              // url拼接
+              url: json_link + '/api/wxapp/fi/user/getmobilecode',
+              data: {
+                authid: 'dongzheng',
+                authsecret: 'dongzheng',
+                mobile: this_.input_tel
+              },
+              // 后台返回值
+              success: function (data) {
+                console.log(data);
+                wx.showToast({
+                  title: data.data.errmsg,
+                  icon: 'none',
+                  duration: 2000
+                });
+                if (data.data.code == 'A00006') {
+                  this_.yzm_zt = true;
+                  this_.daojishi();
+                }
+              }
+            });
+          }
+        }
+      },
+      // 获取手机号
+      tel_input(e) {
+        console.log(e.detail.value);
+        this.input_tel = e.detail.value;
+      },
+      // 验证码
+      yzm_input(e) {
+        console.log(e.detail.value);
+        this.this_yzm = e.detail.value;
+      },
+      // 登录按钮
+      urlPersonal: function () {
+        let json_link = this.$parent.globalData.json_link;
+        let parent_data = this.$parent.globalData;
+        let this_ = this;
+
+        if (this_.postruse == false) {
+          wx.showModal({
+            title: '账号确认',
+            content: 213123,
+            success(res) {
+
+            }
+          })
+          return
+        }
+        this_.postruse = false;
+        wx.showLoading({
+          title: '登录中'
+        });
+        wx.request({
+          // url拼接
+          url: json_link + '/api/wxapp/fi/user/saleuserlogin',
+          method: 'POST',
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          data: {
+            authid: 'dongzheng',
+            authsecret: 'dongzheng',
+            mobile: this_.input_tel,
+            identifyingcode: this_.this_yzm
+          },
+          // 后台返回值
+          success: function (data) {
+            wx.hideLoading();
+            console.log(data.data.code);
+            this_.disabled = 'disabled';
+            this_.postruse = false;
+            if (data.data.code == 'A00006') {
+              console.log(data.data.access_token);
+              parent_data.access_token = data.data.access_token;
+              console.log(parent_data.access_token);
+              // 登录信息弹框
+              wx.showModal({
+                title: '账号确认',
+                content: '您是' + data.data.data.business_partner_nme + '销售专员-' + data.data.data.name,
+                success(res) {
+                  if (res.confirm) {
+                    wx.showLoading({
+                      title: '登录中'
+                    });
+                    wx.redirectTo({
+                      url: 'straight'
+                    });
+                  } else if (res.cancel) {
+                    this_.disabled = '';
+                    this_.postruse = true;
+                  }
+
+                }
+              })
+
+              parent_data.login_zt = 1;
+              this_.$apply();
+            } else {
+              this_.disabled = '';
+              this_.postruse = true;
+              wx.showToast({
+                title: data.data.errmsg,
+                icon: 'none',
+                duration: 2000
+              });
+            }
+          }
+        });
+      }
+    };
+    isPoneAvailable($poneInput) {
+      var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+      if (!myreg.test($poneInput)) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    onLoad() {}
+
+    onUnload() {
+      clearInterval(this.timer);
+    }
+
+    // 倒计时
+    daojishi() {
+      let that = this;
+      console.log(that.timeNum);
+      if (this.timeNum == 60) {
+        console.log('daojishi1');
+        // 开始执行倒计时
+        this.timer = setInterval(() => {
+          that.timeNum = that.timeNum - 1;
+          console.log(that.timeNum);
+          if (that.timeNum <= 0) {
+            that.timeNum = 60;
+            that.yzm_zt = false;
+            clearInterval(that.timer);
+          }
+          that.$apply();
+        }, 1000)
+      }
+    }
+  }
+
+</script>

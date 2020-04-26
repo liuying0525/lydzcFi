@@ -1,0 +1,183 @@
+<style lang="less">
+  .sds {
+    margin: 15% 10%;
+  }
+
+  .brand-list-textone {
+    width: 35%;
+    /* height: 50rpx; */
+    border: 1rpx #999 solid;
+    display: inline-block;
+    text-align: center;
+    line-height: 60rpx;
+    border-radius: 8rpx; //   color: #fff;
+    font-size: 32rpx;
+  }
+
+  .brand-list-texttow {
+    width: 45%;
+    /* height: 50rpx; */
+    background: #5c45c3;
+    display: inline-block;
+    text-align: center;
+    line-height: 62rpx;
+    border-radius: 8rpx;
+    color: #fff;
+    font-size: 32rpx;
+  }
+
+  .sds3 {
+    font-size: 32rpx;
+    border-bottom: 1rpx #eee solid;
+    display: inline-block;
+    padding-left: 10rpx;
+    padding-right: 10rpx;
+    padding-bottom: 10rpx;
+
+  }
+
+  .sds4 {
+    // width: 100%;
+    padding: 8% 15% 13% 15%;
+    font-size: 32rpx;
+    line-height: 70rpx;
+  }
+
+  .sds4 text {
+    color: red;
+  }
+
+  .brand-list-details3 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .dia {
+    width: 40rpx;
+    height: 38rpx;
+    font-size: 42rpx;
+    color: #fff;
+    background: red;
+    border-radius: 42rpx;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    margin-right: 30rpx;
+    margin-top: 10rpx;
+  }
+
+  .sds8 {
+    display: flex;
+    color: red;
+    font-size: 34rpx;
+    margin-bottom: 80rpx;
+  }
+
+  .sds6 {
+    font-size: 28rpx;
+    color: #999;
+    text-align: center;
+  }
+
+  .sds5 {
+    text-align: center;
+  }
+
+  .sds6 text {
+    font-size: 28rpx;
+    color: #999;
+  }
+
+</style>
+<template>
+  <view class="sds">
+    <view class="sds8" wx:if="{{textp=='0'?false:true}}">
+      <view class='dia iconfont #icon-careful'></view>
+      <view>{{errmsg}}</view>
+    </view>
+    <view class="sds2">
+      <view class="sds3">尊敬的
+        <text>{{texts.username}}</text>
+      </view>
+    </view>
+    <view class="sds4">
+      <view class="sds5">{{texts.cardname}}(已使用<text>{{texts.currusetime}}</text>/{{texts.usenumber}}次)</view>
+      <view class="sds6">上次核销时间：
+        <text>{{last_verif_date}}</text>
+      </view>
+    </view>
+    <view class="sds7">
+      <view class='brand-list-details3'>
+        <text class='brand-list-texttow' bindtap="qe">确认</text>
+      </view>
+    </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class systwo extends wepy.page {
+    config = {
+      navigationBarTitleText: '扫一扫'
+    };
+    components = {};
+
+    data = {
+      // 页面数据获取
+      texts: '',
+      // 卡券核销次数
+      textp: '',
+      errmsg: '',
+      last_verif_date: ''
+    };
+
+    methods = {
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/systwo'
+        }
+      },
+      // 核销结果确认
+      qe() {
+        wx.navigateBack({
+          delta: 1
+        })
+      }
+    };
+    onLoad(e) {
+      wx.showLoading({
+        title: '加载中'
+      });
+      console.log(e)
+      let that = this;
+      let json_link = this.$parent.globalData.json_link;
+      let parent_data = this.$parent.globalData;
+      if (parent_data.access_token != '' && parent_data.access_token != undefined) {
+        wx.request({
+          url: json_link + '/api/wxapp/card/fi/verificationcardresult?access_token=' + parent_data.access_token,
+          data: {
+            cardid: e.id,
+            userid: e.e
+          },
+          success: function (data) {
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 0);
+
+            console.log(data);
+            that.texts = data.data.data;
+            that.textp = data.data.overdue;
+            that.errmsg = data.data.errmsg;
+            that.last_verif_date = data.data.last_verif_date;
+            // 给数据进行绑定
+            console.log(that.errmsg);
+            that.$apply();
+          }
+        });
+      }
+    }
+  }
+
+</script>

@@ -1,0 +1,130 @@
+<style lang="less">
+  .right_sidebar{
+    display: block;
+    position: fixed;
+    bottom:0;
+    height: 40%;
+    right: 0;
+    width: 100%;
+    z-index: 999999;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+  }
+  .right_sidebar_false{
+    display: block;
+    position: fixed;
+    bottom:0;
+    height: 100%;
+    bottom: -100%;
+    width: 100%;
+    z-index: 999999;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+  }
+  .sidebar{
+    width: 100%;
+    height: 100%;
+  }
+  .sidebar_yinying{
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    transition: all 0.2s;
+    -webkit-transition: opacity 0.2s;
+    opacity: 0;
+    z-index: 99999;
+    position: fixed;
+    left: 0;
+    bottom:0;
+  }
+  .sidebar_yinying2{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    transition: all 0.2s;
+    -webkit-transition: opacity 0.2s;
+    opacity: 0.4;
+    z-index: 99999;
+    position: fixed;
+    left: 0;
+    bottom:0;
+  }
+  .sidebar_right{
+    position: absolute;
+    bottom:0;
+    right: 0;
+    width: 84%;
+    height: 85%;
+    padding: 5% 8% 10% 8%;
+    z-index: 2;
+    word-break: normal;
+    background-color: #ffffff;
+  }
+  .bottom_list{
+    line-height: 46rpx;
+    width: 24%;
+    font-size: 26rpx;
+    color: #000000;
+    // margin:10% 0;
+    border-radius:46rpx;
+    text-align: center;
+    border:1rpx #000000 solid;
+    margin-bottom: 3%; 
+  }
+  .text{
+     line-height: 38rpx;
+      width: 90%;
+      margin: 0 auto;
+    font-size: 22rpx;
+    color: #000000;
+
+  }
+  .right_sidebar_false .sidebar_yinying{
+    opacity: 0;
+  }
+  .right_sidebar .sidebar_yinying{
+    opacity: 0.4;
+  }
+</style>
+<template>
+<view>
+  <view class="{{sidebar_?'sidebar_yinying2':'sidebar_yinying'}}" @tap="clear_yy"></view>
+  <view class="{{sidebar_?'right_sidebar':'right_sidebar_false'}}">
+    <view class="sidebar">
+      <scroll-view class="sidebar_right" scroll-y>
+        <view class='bottom_list'>活动说明</view>
+        <view class='text'>活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动</view>
+      </scroll-view>
+    </view>
+  </view>
+</view>
+
+</template>
+<script>
+// 之前写的详情页活动模块 可是没有用  我不建议删除 可能会用到
+  import wepy from 'wepy'
+  export default class Sidebar extends wepy.component {
+    data = {
+      json_zhi:[],
+      sidebar_:false
+    };
+    props ={
+
+    };
+    methods = {
+//      关闭
+      clear_yy:function(){
+        this.sidebar_ = false;
+      },
+      someMethod:function(){
+        this.sidebar_ = true;
+        console.log(1)
+      }
+    };
+    onLoad(){
+
+    }
+  }
+</script>

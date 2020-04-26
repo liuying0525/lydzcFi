@@ -1,0 +1,268 @@
+<style lang="less">
+  .coupon {
+    .couponNum {
+      height: 114rpx;
+      line-height: 114rpx;
+      font-size: 30rpx;
+      text-align: center;
+      background: #fff;
+    }
+    .couponInfoBox{
+      width: 100%;
+      height: 318rpx;
+      background: #f0f1f5;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding-top: 80rpx;
+      margin-bottom: 300rpx;
+      .couponInfo {
+        width: 650rpx;
+        height: 157rpx;
+        margin: 0 auto;
+        /*background: pink;*/
+        display: flex;
+        justify-content: space-around;
+      }
+      .left {
+        flex: 7;
+        background: url("https://webapi.dongzhengafc.com:9503/images/dhSec00.png") no-repeat center;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+        font-size: 32rpx;
+        color: #5c5c5c;
+        padding-top: 30rpx;
+        line-height: 50rpx;
+        text-indent: 128rpx;
+        .name{
+          font-size: 28rpx;
+        }
+      }
+      .right{
+        flex:3;
+        background: url("https://webapi.dongzhengafc.com:9503/images/dhSec01.png") no-repeat center;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+        color: #fff;
+        font-size: 40rpx;
+        text-align: center;
+        line-height:157rpx ;
+      }
+    }
+  }
+
+  .cancelBtn {
+    width: 35%;
+    border: 1rpx solid #bfc0c9;
+    display: inline-block;
+    text-align: center;
+    line-height: 72rpx;
+    border-radius: 8rpx;
+    font-size: 32rpx;
+    background: #bfc0c9;
+    color: #fff;
+  }
+
+  .submitBtn {
+    width: 35%;
+    background: #5c45c3;
+    display: inline-block;
+    text-align: center;
+    line-height: 72rpx;
+    border-radius: 8rpx;
+    color: #fff;
+    margin-left: 50rpx;
+    font-size: 32rpx;
+  }
+
+  .sds3 {
+    font-size: 32rpx;
+    border-bottom: 1rpx #eee solid;
+    display: inline-block;
+    padding-left: 10rpx;
+    padding-right: 10rpx;
+    padding-bottom: 10rpx;
+  }
+
+  .sds4 {
+    // width: 100%;
+    padding: 13% 12%;
+    font-size: 32rpx;
+    line-height: 70rpx;
+  }
+
+  .sds4 text {
+    color: red;
+  }
+
+  .btns {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+.sdstext{
+  text-align: center;
+  margin-top: 60%
+}
+.sdstext_one{
+  margin-bottom: 100rpx
+
+}
+  .sdstext_two {
+    width: 45%;
+    /* height: 50rpx; */
+    background: #5c45c3;
+    display: inline-block;
+    text-align: center;
+    line-height: 62rpx;
+    border-radius: 8rpx;
+    color: #fff;
+    font-size: 32rpx;
+  }
+</style>
+<template>
+  <view class="coupon">
+    <view  class="sdstext"  wx:if="{{left}}">
+      <view class="sdstext_one">卡券已失效</view>
+      <text class='sdstext_two' bindtap="qx">确认</text>
+    </view>
+    <view wx:if="{{!left}}">
+      <view class="couponNum">卡券编号:No.{{texts.couponNo}}</view>
+      <view class="couponInfoBox">
+        <view class="couponInfo">
+          <view class="left">
+            <view>{{texts.couponName}}</view>
+            <view class="name">姓名：{{texts.userName}}</view>
+          </view>
+          <view class="right">
+            <view>¥{{texts.couponAmount}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="sds7">
+        <view class='btns'>
+          <text class='cancelBtn' bindtap="qx">取消</text>
+          <text class='submitBtn' bindtap="quer">确认核销</text>
+        </view>
+      </view>
+  </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class sys extends wepy.page {
+    config = {
+      navigationBarTitleText: '扫一扫'
+    };
+    components = {};
+
+    data = {
+      parent_data:'',
+      qrCode: '',
+      // 页面数据获取
+      texts: '',
+      // 卡券核销次数
+      textp: '',
+      // 用户id
+      ie: '',
+      // 卡券id
+      e: '',
+      left: false
+    };
+
+    methods = {
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        };
+      },
+      // 确认核销
+      quer() {
+        // wx.redirectTo({
+        //   url: 'systwo?id=' + this.ie + '&e=' + this.e
+        // });
+        wx.showLoading({
+          title: '加载中'
+        });
+        let that = this;
+        wx.request({
+          url: that.parent_data.json_hqLink + '/userCoupon/verification',
+          data: {
+            financialspecialistid: that.parent_data.financialspecialistid,
+            fiLoginToken: that.parent_data.access_token,
+            qrCode: that.qrCode
+          },
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          method:'post',
+          success: function (res) {
+            wx.hideLoading();
+           if (res.data.code == 10001) {
+             wx.showToast({
+               title: '核销成功',
+               icon: 'success',
+               duration: 2000,
+               success: function () {
+                 that.$redirect('charge');
+               }
+             })
+           } else {
+             wx.showModal({
+               title: '提示',
+               content: res.data.msg,
+               showCancel: false,
+               success (data) {
+                 if (data.confirm) {
+                   console.log('用户点击确定')
+                 }
+               }
+             })
+           }
+          }
+        });
+      },
+      // 取消核销
+      qx() {
+        wx.navigateBack({
+          delta: 1
+        });
+      }
+    };
+    onLoad(options) {
+      wx.showLoading({
+        title: '加载中'
+      });
+      let that = this;
+      that.parent_data = this.$parent.globalData;
+      that.qrCode = options.qrCode;
+      if (
+        that.parent_data.access_token != '' &&
+        that.parent_data.access_token != undefined
+      ) {
+        wx.request({
+          url: that.parent_data.json_hqLink + '/userCoupon/scan',
+          data: {
+            financialspecialistid: that.parent_data.financialspecialistid,
+            fiLoginToken: that.parent_data.access_token,
+            qrCode: that.qrCode
+          },
+          success: function (res) {
+            if (res.data.code == '10001') {
+              wx.hideLoading();
+              that.texts = res.data.data;
+              that.$apply();
+            }
+            if (res.data.code == '20043') {
+              wx.hideLoading();
+              that.left = true;
+              that.$apply();
+            }
+          }
+        });
+      }
+    }
+  }
+
+</script>

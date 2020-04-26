@@ -1,0 +1,238 @@
+<style lang="less">
+  .authorizeIdcard {
+    .titleImg {
+      display: block;
+      height: 186rpx;
+      width: 100%;
+      margin-bottom: 6rpx;
+    }
+    .idCardBox {
+      height: 310rpx;
+      width: 520rpx;
+      margin: 0 auto;
+      background: #63a35c;
+      position: relative;
+    }
+    .idCardImg {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+    .idCardTureImg {
+      .idCardImg;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      background: #000;
+    }
+    .addBtn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      display: block;
+      height: 84rpx;
+      width: 84rpx;
+    }
+    .deleteBtn {
+      position: absolute;
+      right: -20rpx;
+      top: -20rpx;
+      display: block;
+      height: 50rpx;
+      z-index: 100;
+      width: 50rpx;
+      background: #fff;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+    }
+    .titleText {
+      line-height: 80rpx;
+      font-size: 24rpx;
+      text-align: center;
+    }
+    .nextBtn {
+      width: 576rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      text-align: center;
+      color: #fff;
+      font-size: 32rpx;
+      margin: 48rpx auto 20rpx;
+      background: #6043ca;
+      -webkit-border-radius: 12rpx;
+      -moz-border-radius: 12rpx;
+      border-radius: 12rpx;
+    }
+    .nextBtnNo {
+      background: #bfc1c8;
+    }
+    .goBack {
+      width: 576rpx;
+      font-size: 24rpx;
+      color: #6044ca;
+      margin: 0 auto;
+      text-align: right;
+    }
+    .silver {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 186rpx;
+      z-index: 100;
+      background:rgba(0,0,0,0.25);
+      .modelBox {
+        width: 594rpx;
+        /*height: 420rpx;*/
+        background: #fff;
+        -webkit-border-radius: 6rpx;
+        -moz-border-radius: 6rpx;
+        border-radius: 6rpx;
+        margin: 160rpx auto 0;
+      }
+      .modelTitle {
+        font-size: 28rpx;
+        padding: 38rpx 0 45rpx;
+        text-align: center;
+      }
+      .modelCon {
+        height: 178rpx;
+        padding: 0 80rpx;
+        margin-bottom: 50rpx;
+      }
+      .infoText {
+        height: 178rpx;
+        width: 120rpx;
+        float: left;
+        font-size: 24rpx;
+        line-height: 58rpx;
+        color: #383838;
+      }
+      .modelImg {
+        float: right;
+        height: 178rpx;
+        width: 275rpx;
+      }
+      .modelBtn {
+        height: 80rpx;
+        line-height: 80rpx;
+        text-align: center;
+        color: #6043ca;
+        border-top: 1rpx solid #a0a2a9;
+        font-size: 24rpx;
+        text-align: center;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="authorizeIdcard">
+    <view class="silver" wx:if="{{silverShow}}">
+      <view class="modelBox">
+        <view class="modelTitle">身份证照片要求</view>
+        <view class="modelCon">
+          <view class="infoText">
+            <text>1.横向拍摄</text>
+            <text>2.四角完整</text>
+            <text>3.内容清晰</text>
+          </view>
+          <image src="{{url_link ? url_link + 'sfzModel.png' : ''}}" class="modelImg"></image>
+        </view>
+        <view class="modelBtn">我知道了</view>
+      </view>
+    </view>
+    <image class="titleImg" src="{{url_link ? url_link + 'sfxx.png' : ''}}"></image>
+    <view class="titleText">上传身份证正面人像面</view>
+    <view class="idCardBox">
+      <image class="idCardImg" src="{{url_link?url_link + 'sfzZ.png':''}}"></image>
+      <image class="addBtn"  src="{{url_link?url_link + 'addButton.png' : ''}}" @tap="chooseImg({{'idCardZ'}})"></image>
+      <block wx:if="{{idCardZ!=''}}">
+        <image class="idCardTureImg" src="{{idCardZ}}"></image>
+        <image class="deleteBtn" src="{{url_link?url_link + 'sfzDelete.png':''}}" @tap="deleteImg({{'idCardZ'}})"></image>
+      </block>
+    </view>
+    <view class="titleText">上传身份证反面国徽面</view>
+    <view class="idCardBox">
+      <image class="idCardImg" src="{{url_link?url_link + 'sfzF.png':''}}"></image>
+      <image class="addBtn" src="{{url_link?url_link + 'addButton.png' : ''}}" @tap="chooseImg({{'idCardF'}})"></image>
+      <block  wx:if="{{idCardF!=''}}">
+        <image class="idCardTureImg" src="{{idCardF}}"></image>
+        <image class="deleteBtn" src="{{url_link?url_link + 'sfzDelete.png':''}}" @tap="deleteImg({{'idCardF'}})"></image>
+      </block>
+    </view>
+    <view class="nextBtn {{canNext?'':'nextBtnNo'}}" @tap="nextFunc">下一步</view>
+    <view class="goBack" @tap="goMine">返回'我的'</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import toastInfo from '../components/toastInfo'
+  export default class authorizeIdcard extends wepy.page {
+    config = {
+      navigationBarTitleText: '征信授权'
+    };
+    components = {
+      toastInfo: toastInfo
+    };
+    computed = {
+      //是否可以下一步
+      canNext() {
+        if (this.idCardZ !== '' && this.idCardF !== '') {
+          this.canNextInfo = true;
+          return true;
+        } else {
+          this.canNextInfo = false;
+          return false;
+        }
+      }
+    };
+    data = {
+      url_link: '',
+      canNextInfo: '',
+      silverShow: false,// 身份证照片格式提示
+      idCardZ: '',// 身份证正面图
+      idCardF: '' // 身份证反面图
+    };
+    methods = {
+      // 选择上传图片
+      chooseImg(type) {
+        let that = this;
+        wx.chooseImage({
+          count: 1,
+          sizeType: ['original', 'compressed'],
+          sourceType: ['album', 'camera'],
+          success(res) {
+            // tempFilePath可以作为img标签的src属性显示图片
+            that[type] = res.tempFilePaths[0];
+            that.$apply();
+          }
+        })
+      },
+      // 删除图片
+      deleteImg(type) {
+        this[type] = '';
+      },
+      // 点击下一步 验证图片格式是否正确
+      nextFunc() {
+        if (this.canNextInfo) {
+          this.$navigate('authorizeFace');
+          //this.$invoke('toastInfo','modelFunc','000','上传照片不清晰，请重新上传') //上传照片必须为身份证照片，请重新上传
+        } else {
+          this.$invoke('toastInfo','modelFunc','000','请按要求上传所有照片') //上传照片必须为身份证照片，请重新上传
+        }
+      },
+      goMine: function () {
+        wx.reLaunch({
+          url: 'wode'
+        })
+      }
+    };
+    onLoad() {
+      this.url_link = this.$parent.globalData.url_link;
+    }
+  }
+</script>

@@ -1,0 +1,129 @@
+<style lang="less">
+  .authorizeFace {
+    .titleImg {
+      display: block;
+      height: 186rpx;
+      width: 100%;
+      margin-bottom: 6rpx;
+    }
+    .titleText{
+      font-size: 32rpx;
+      text-align: center;
+      margin: 70rpx 0rpx 60rpx;
+    }
+    .circleBox{
+      height: 540rpx;
+      width: 504rpx;
+      margin: 0 auto;
+      border: 3rpx solid #eee;
+      -webkit-border-radius: 6rpx;
+      -moz-border-radius: 6rpx;
+      border-radius: 6rpx;
+      image{
+        display: block;
+        width: 178rpx;
+        height: 178rpx;
+        margin: 86rpx auto;
+      }
+      .successImg {
+        margin-top: 120rpx;
+      }
+      .warnInfo{
+        font-size: 22rpx;
+        color: #555555;
+        text-align: center;
+        width: 320rpx;
+        line-height: 36rpx;
+        margin: 32rpx auto 0;
+      }
+    }
+    .beginBtn {
+      width: 576rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      text-align: center;
+      color: #fff;
+      font-size: 32rpx;
+      -webkit-border-radius: 12rpx;
+      -moz-border-radius: 12rpx;
+      border-radius: 12rpx;
+      background: #6043ca;
+      margin: 90rpx auto 20rpx;
+    }
+    .goBack {
+      width: 576rpx;
+      font-size: 24rpx;
+      color: #6044ca;
+      margin: 0 auto;
+      text-align: right;
+    }
+    .result{
+      width: 170rpx;
+      margin: 0 auto;
+      font-size: 34rpx;
+      color: #ff4343;
+      text-align: right;
+      background: url("http://test-wxapp.dongzhengafc.com/assets/errorIcon.png")no-repeat;
+      -webkit-background-size: contain;
+      background-size: contain;
+    }
+    .resultSuccess{
+      .result;
+      width: 130rpx;
+      color: #6044ca;
+      background: url("http://test-wxapp.dongzhengafc.com/assets/successIcon.png")no-repeat;
+      -webkit-background-size: contain;
+      background-size: contain;
+    }
+  }
+</style>
+<template>
+  <view class="authorizeFace">
+    <image class="titleImg" src="{{url_link ? url_link + 'rlsb.png' : ''}}"></image>
+    <view class="titleText">比对结果</view>
+    <view class="circleBox">
+      <image src="{{url_link?url_link+'smile.png':''}}" wx:if="{{successInfo}}" class="successImg"></image>
+      <image src="{{url_link?url_link+'upsate.png':''}}" wx:if="{{!successInfo}}" class="errorImg"></image>
+      <view class="result" wx:if="{{!successInfo}}">未通过</view>
+      <view class="resultSuccess" wx:if="{{successInfo}}">通过</view>
+      <view class="warnInfo"  wx:if="{{!successInfo}}">身份信息与人脸识别结果不匹配， 请重新采集</view>
+    </view>
+    <view class="beginBtn" wx:if="{{!successInfo}}" @tap="backIdCard">回到身份信息采集</view>
+    <view class="beginBtn" wx:if="{{successInfo}}" @tap="next">下一步</view>
+    <view class="goBack" @tap="goMine">返回'我的'</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import toastInfo from '../components/toastInfo'
+  export default class authorizeFaceSec extends wepy.page {
+    config = {
+      navigationBarTitleText: '征信授权'
+    };
+    data = {
+      url_link: '',
+      successInfo: true
+    };
+    components = {
+      toastInfo:toastInfo
+    };
+    methods = {
+      backIdCard: function () {
+        wx.navigateBack({
+          delta: 2
+        })
+      },
+      next: function () {
+        this.$redirect('authorizeBankcard');
+      },
+      goMine: function () {
+        wx.reLaunch({
+          url: 'wode'
+        })
+      }
+    };
+    onLoad() {
+      this.url_link = this.$parent.globalData.url_link;
+    }
+  }
+</script>

@@ -1,0 +1,97 @@
+  <style lang="less">
+  .table_content{
+    display: flex;
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    padding-top: 55rpx;
+    padding-bottom: 15rpx;
+    z-index: 9999;
+    background-color: #FFFFFF;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .table_list{
+    flex: 1;
+  }
+  .table_list{
+    font-size: 28rpx;
+    color: #000;
+    text-align: center;
+    position: relative;
+  }
+  .table_list_icon{
+    display: block;
+    width: 76rpx;
+    height: 40rpx;
+    position: absolute;
+    top: -45rpx;
+    left:45%;
+    margin-left: -20rpx;
+  }
+</style>
+<template>
+  <view class="table_content"  style='padding-bottom:{{btuBottom}}'>
+    <view class="table_list" bindtap="urlStraight">
+      <image src="{{che}}" mode="aspectFit" class="table_list_icon iconfont icon-dkw_xiaoxi"></image>
+      金融购车
+    </view>
+    <!-- <view class="table_list">
+      <image src="{{ys}}" mode="aspectFit" class="table_list_icon iconfont icon-dkw_xiaoxi"></image>
+      直租
+    </view> -->
+    <view class="table_list" bindtap="urlPersonal">
+      <image src="{{my}}" mode="aspectFit" class="table_list_icon iconfont icon-dkw_xiaoxi"></image>
+      我的
+    </view>
+  </view>
+</template>
+<script>
+// 底部页面切换页
+  import wepy from 'wepy'
+  export default class Leotable extends wepy.component {
+    data = {
+      // 金融购车image
+      che:'',
+      // ys:'',
+      // 我的image
+      my:'',
+      btuBottom:''
+    };
+    props={
+      che_ : String,
+      ys_ : String,
+      my_ : String,
+    }
+    methods = {
+urlPersonal:function(){
+    wx.redirectTo({
+      url: 'wode'
+    })
+  },
+  urlStraight:function(){
+    wx.redirectTo({
+      url: 'straight'
+    })
+  }
+    };
+    onLoad(){
+
+       let parent_data = this.$parent.$parent.globalData;
+        var res = wx.getSystemInfoSync();
+        // 查看手机型号 X的时候底部增高 其他手机正常
+       parent_data.btuBottom = res.model;
+             var model = res.model
+        if (model.search('iPhone X') != -1){
+              this.btuBottom="68rpx"
+        }else{
+          this.btuBottom="15rpx"
+        }
+       console.log(res.model)
+      this.che = this.che_;
+      this.ys = this.ys_;
+      this.my = this.my_;
+      console.log(this.che_);
+    }
+  }
+</script>

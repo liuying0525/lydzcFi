@@ -1,0 +1,239 @@
+<style lang="less">
+  .details_top {
+    width: 90%;
+    padding: 0 5%;
+    line-height: 90rpx;
+    font-size: 28rpx;
+    background: #eee; // font-weight:bold;
+    padding-top: 112rpx;
+  }
+
+  .details_top .details_text text {
+    color: rgb(255, 23, 23);
+  }
+
+  .jil {
+    width: 86%;
+    display: flex;
+    justify-content: space-between;
+    line-height: 90rpx;
+    padding: 0 7%;
+    color: rgb(0, 0, 0);
+    font-size: 28rpx;
+    border-bottom: 2rpx #eee solid;
+    background: #fff;
+    font-weight: bold;
+  }
+
+  .jil text {
+    margin-left: 20rpx;
+    font-size: 26rpx;
+    color: rgb(77, 77, 77);
+    font-weight: normal;
+  }
+
+  .shijian {
+    font-size: 24rpx;
+    color: rgb(77, 77, 77);
+    font-weight: normal;
+  }
+
+  .shijian text {
+    font-size: 22rpx;
+    color: rgb(77, 77, 77);
+    font-weight: normal;
+  }
+
+  .zxkf {
+    width: 90%;
+    line-height: 65rpx;
+    background: rgb(92, 69, 195);
+    color: #fff;
+    text-align: center;
+    border-radius: 10rpx;
+    font-size: 28rpx;
+    margin: 0 auto;
+    margin-bottom: 20rpx;
+  }
+
+  .zx {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+  }
+
+  .rms {
+    margin-right: 16rpx;
+    border: 2rpx #a7a7a7 solid;
+    font-size: 22rpx;
+    color: #a7a7a7;
+    font-weight: normal;
+  }
+
+  .jill {
+    width: 86%;
+    display: flex;
+    justify-content: space-between;
+    line-height: 90rpx;
+    padding: 0 7%;
+    color: rgb(167, 167, 167);
+    font-size: 28rpx;
+    border-bottom: 2rpx #eee solid;
+    background: #eee;
+    font-weight: bold;
+  }
+
+  .jill .msr {
+    margin-left: 20rpx;
+    font-size: 26rpx;
+    color: rgb(167, 167, 167);
+    font-weight: normal;
+  }
+
+  .jill .shijian {
+    color: rgb(167, 167, 167);
+  }
+
+  .zxx {
+    width: 100%;
+    height: 180rpx;
+  }
+
+  .kong {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .kong-image1 {
+    width: 250rpx;
+    height: 40rpx;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    margin-left: -116rpx;
+    margin-top: -20rpx;
+  }
+
+  .kongzi {
+    position: absolute;
+    left: 38%;
+    top: 58%;
+    font-size: 32rpx;
+    color: #333
+  }
+
+</style>
+<template>
+  <view class="sds">
+    <inputt @childFn.user="my"></inputt>
+    <view class="details_top">
+      <text class="details_text">已为您找到<text>{{data_zhi.length}}</text>位用户</text>
+    </view>
+    <view>
+
+    </view>
+    <view wx:if="{{code=='A00006'?true:false}}">
+      <view class="kong" wx:if="{{data_zhi.length=='0'?true:false}}">
+        <image class="kong-image1" src="image/kon.png" mode='widthFix'></image>
+        <view class="kongzi">未找到此用户</view>
+      </view>
+    </view>
+    <view wx:for="{{data_zhi}}" wx:key="key" @tap="bianji({{item.saleuserinfoid}},{{item.mobile}},{{item.name}},{{item.status}})">
+      <view class=" {{item.status=='0'? 'jill':'jil'}}">
+        <view>
+          {{item.name}}
+          <text class="msr">{{item.mobile}}</text>
+        </view>
+        <view class='shijian'>
+          <text wx:if="{{item.status=='0'? true:false}}" class='rms'>停用</text>修改</view>
+      </view>
+    </view>
+    <view class="zxx">
+    </view>
+    <view class="zx">
+      <view class="zxkf" @tap="zxkf_btn">新增账户</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import Inputt from '../components/inputt';
+  export default class zhanghu extends wepy.page {
+    config = {
+      navigationBarTitleText: '销售账户管理'
+    };
+    components = {
+      inputt: Inputt
+    };
+
+    data = {
+      // 销售用户
+      data_zhi: [],
+      // 判断用户是否为空
+      code: ''
+    };
+
+    methods = {
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        }
+      },
+      // 用户名搜索
+      my(e) {
+        let parent_data = this.$parent.globalData;
+        let this_ = this;
+        if (e != ' ') {
+          wx.request({
+            url: parent_data.json_link + '/api/wxapp/fi/saleusermanage/list?access_token=' + parent_data.access_token,
+            data: {
+              name: e
+            },
+            success: function (data) {
+              console.log(this_.data_zhi);
+              this_.data_zhi = data.data.saleuserinfoJA;
+              this_.code = data.data.code;
+              this_.$apply();
+            }
+          });
+        }
+      },
+      // 新增用户 页面跳转
+      zxkf_btn() {
+        this.$navigate('chang2');
+      },
+      // 用户详情 销售人id 手机号 姓名 状态
+      bianji(saleuserinfoid, mobile, name, status) {
+        let parent_data = this.$parent.globalData;
+        let this_ = this;
+        this.$navigate('changegl', {
+          saleuserinfoid: saleuserinfoid,
+          mobile: mobile,
+          name: name,
+          status: status,
+        });
+      }
+    };
+    onLoad() {
+   
+    }
+    onShow() {
+      // 销售用户列表请求
+      // this.onLoad();
+         let parent_data = this.$parent.globalData;
+      let this_ = this;
+      wx.request({
+        url: parent_data.json_link + '/api/wxapp/fi/saleusermanage/list?access_token=' + parent_data.access_token,
+        success: function (data) {
+          console.log(data);
+          this_.data_zhi = data.data.saleuserinfoJA;
+          this_.code = data.data.code;
+          this_.$apply();
+        }
+      });
+    }
+  }
+
+</script>

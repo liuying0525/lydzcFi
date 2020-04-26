@@ -1,0 +1,204 @@
+<style lang="less">
+  .details_top {
+    line-height: 90rpx;
+    font-size: 28rpx;
+    background: #eee;
+    /*padding-top: 112rpx;*/
+    .total {
+      font-size: 30rpx;
+      color: #6e6e6e;
+      background: #f0f1f5;
+      text-indent: 46rpx;
+    }
+  }
+
+  .list {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 4rpx;
+    line-height: 72rpx;
+    color: rgb(0, 0, 0);
+    font-size: 30rpx;
+    background: #fff;
+    .item {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 2rpx solid #e0dddd;
+      text {
+
+      }
+    }
+  }
+  .kong {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-top: 300rpx;
+  }
+
+  .kong-image1 {
+    display: block;
+    width: 250rpx;
+    height: 40rpx;
+    margin: 0 auto 30rpx;
+  }
+
+  .kongzi {
+    text-align: center;
+    font-size: 32rpx;
+    color: #333;
+    
+  }
+  .searchBox {
+    position: relative;
+    height: 82rpx;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #6044cb;
+    padding: 18rpx 0;
+    .searchText {
+      display: block;
+      background: #fff;
+      width: 669rpx;
+      height: 46rpx;
+      margin: 0 auto;
+      font-size: 24rpx;
+      border-radius: 6rpx;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding-left:50rpx;
+    }
+    .index_input_ss {
+      position: absolute;
+      width: 30rpx;
+      top:30rpx;
+      left:55rpx;
+      font-size: 28rpx;
+    }
+  }
+
+</style>
+<template>
+  <view class="sds">
+    <view class="searchBox">
+      <text class="index_input_ss iconfont icon-sousuo"></text>
+      <input type="text" value="{{searchText}}" data-name="searchText" class="searchText" confirm-type="search"  @input="changeValue" bindconfirm="searchList" placeholder="请输入姓名"/>
+    </view>
+    <view class="details_top" wx:if="{{list.length > 0}}">
+      <view class="total">共 <text style="color: red;"> {{customTotal}} </text>位客户，<text style="color: red;"> {{total}} </text>次核销记录</view>
+      <view class='list' wx:for="{{list}}" wx:key="{{item.useDate}}">
+        <view class="item"><text>{{item.userName }}</text><text>{{item.couponName}}</text><text>{{item.useDate}}</text></view>
+      </view>
+    </view>
+    <!-- 为空时提示 -->
+    <view wx:if="{{list.length === 0}}">
+      <view class="kong">
+        <image class="kong-image1" src="image/kon.png" mode='widthFix'></image>
+        <view class="kongzi">暂未找到,请改变搜索关键字再试</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class charge extends wepy.page {
+    config = {
+      navigationBarTitleText: '已核销卡券'
+    };
+    data = {
+      parent_data:'',
+      // 列表数据
+      list: [],
+      currentNum: '',
+      searchText: '',
+      customTotal: '',
+      total: ''
+    };
+
+    methods = {
+      // 搜索用户
+      searchList: function () {
+        this.currentNum = 1;
+        this.list = [];
+        this.getList();
+      },
+      // 更改input值
+      changeValue: function (e) {
+        this[e.currentTarget.dataset.name] = e.detail.value;
+      }
+    };
+    getList () {
+      let that = this;
+      wx.showLoading({
+        title: '加载中',
+      })
+      wx.request({
+        url: that.parent_data.json_hqLink + '/userCoupon/list',
+        data: {
+          financialspecialistid: that.parent_data.financialspecialistid,
+          fiLoginToken: that.parent_data.access_token,
+          name: that.searchText,
+          pageNum: that.currentNum,
+          pageSize: 10
+        },
+        success: function (res) {
+          if (res.data.code == '10001') {
+            that.customTotal = res.data.data.customTotal;
+            that.total = res.data.data.total;
+            that.$apply();
+            wx.hideLoading();
+            if (res.data.data.list.length > 0) {
+              that.list = that.list .concat(res.data.data.list);
+              that.$apply();
+            } else {
+              if (that.currentNum == 1) {
+                that.list = res.data.data.list;
+                that.$apply();
+              } else {
+                that.currentNum = that.currentNum <= 1 ? 1: that.currentNum- 1;
+                wx.showToast({
+                  title: '加载全部',
+                  icon: 'success',
+                  duration: 2000
+                })
+              }
+              return false;
+            }
+          } else {
+            wx.hideLoading();
+            that.$invoke('toastInfo', 'modelFunc', res.data.code, res.data.msg);
+          }
+        }
+      })
+    };
+    onPullDownRefresh() {
+      this.list = [];
+      this.currentNum = 1;
+      this.getList();
+    };
+    onReachBottom() {
+      this.currentNum = this.currentNum + 1;
+      this.getList();
+    };
+    onLoad() {
+    }
+    onShow () {
+      this.parent_data = this.$parent.globalData;
+      this.searchText = '';
+      this.currentNum = 1;
+      this.list = [];
+      this.getList();
+    }
+  }
+
+</script>

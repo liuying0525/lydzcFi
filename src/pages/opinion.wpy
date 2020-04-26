@@ -1,0 +1,127 @@
+<style lang="less">
+  /**index.wxss**/
+
+  .opinion-textarea {
+    width: 85%;
+    height: 300px;
+    border: 2px #f2f2f2 solid;
+    margin: 40rpx 36rpx 90rpx 36rpx;
+    padding: 19rpx;
+    font-size: 10pt;
+    border-radius: 4pt;
+  }
+
+  .opinion-button {
+    width: 91%;
+    background: rgb(92, 69, 195);
+    color: #fff;
+  }
+
+</style>
+<template>
+  <view class="testresult">
+    <view class="opinion">
+      <form bindsubmit="bindFormSubmit">
+        <textarea placeholder="您留下的每个字都将帮助我们改善产品，期待您的反馈！" name="textarea" class='opinion-textarea' maxlength='200' />
+        <button form-type="submit" class='opinion-button'> 提交 </button>
+      </form>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  export default class opinion extends wepy.page {
+    config = {
+      navigationBarTitleText: '意见反馈'
+    };
+    components = {};
+
+    data = {};
+    methods = {
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        }
+      },
+      // 意见反馈
+      bindFormSubmit(e) {
+        // 判断意见框是非为空
+        if (e.detail.value.textarea != '') {
+          let this_ = this;
+          let json_link = this.$parent.globalData.json_link;
+          let parent_data = this.$parent.globalData;
+          // 判断access_token
+          if (parent_data.access_token != '') {
+            wx.request({
+              url: parent_data.json_link +
+                '/api/wxapp/fi/opinionfeedback/post?access_token=' +
+                parent_data.access_token,
+              // POST请求方式
+              method: 'POST',
+              header: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              data: {
+                content: e.detail.value.textarea
+              },
+              success: function (data) {
+                console.log(data);
+                wx.showToast({
+                  title: '成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+                // 成功后跳转my我的页面
+                setTimeout(function () {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }, 2000);
+              }
+            });
+          } else {
+            this_.$invoke('alert_l', 'chufa', true);
+            this_.request_cs = function (access_token) {
+              wx.request({
+                url: parent_data.json_link +
+                  '/api/wxapp/fi/opinionfeedback/post?access_token=' +
+                  parent_data.access_token,
+                method: 'POST',
+                header: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: {
+                  content: e.detail.value.textarea
+                },
+                success: function (data) {
+                  console.log(data);
+                  wx.showToast({
+                    title: '成功',
+                    icon: 'success',
+                    duration: 2000
+                  });
+                  setTimeout(function () {
+                    wx.navigateBack({
+                      delta: 1
+                    });
+                  }, 2000);
+                }
+              });
+            };
+          }
+        } else {
+          wx.showToast({
+            title: '不能为空',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      }
+    };
+
+    onLoad() {
+
+    }
+  }
+
+</script>

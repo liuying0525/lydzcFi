@@ -1,0 +1,340 @@
+<style lang="less">
+  .sf {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+    color: rgb(85, 85, 85);
+    line-height: 100rpx;
+    font-size: 28rpx;
+    background: #fff;
+    border-bottom: 1rpx #eee solid;
+    letter-spacing: 2rpx;
+  }
+
+  .zho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .joio-img {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 100rpx;
+    margin-right: 50rpx;
+  }
+
+  .di {
+    transform: scale(-1, 1);
+    margin-left: 20rpx;
+    font-size: 40rpx;
+    color: #555555;
+  }
+
+  .sys-biaoti {
+    background: #eee;
+    line-height: 56rpx;
+    font-size: 28rpx;
+    padding: 0 4%;
+  }
+
+  .ho {
+    color: red;
+  }
+
+  .sds-sh {
+    display: flex;
+    align-items: center;
+    line-height: 180rpx;
+    padding: 0 5%;
+  }
+
+  .joio-img2 {
+    width: 10rpx;
+    height: 10rpx;
+    border-radius: 10rpx;
+    margin: 0 25rpx;
+  }
+
+  .sds-sh2 {
+    display: flex;
+    align-items: center;
+    font-size: 30rpx;
+  }
+
+  .joio-img3 {
+    width: 75rpx;
+    height: 70rpx;
+    margin-bottom: 10rpx;
+  }
+
+  .joio-img4 {
+    width: 68rpx;
+    margin-bottom: 10rpx;
+  }
+
+  .cy {
+    display: flex;
+    justify-content: space-around;
+    font-size: 28rpx;
+    padding-top: 15%;
+    height: 120rpx;
+    color: #555555;
+
+  }
+
+  .cy view {
+    text-align: center;
+  }
+
+  .anniu {
+    width: 100%;
+    height: 100rpx;
+  }
+
+</style>
+<template>
+  <view class="sds">
+    <userinfo_alert @childFn.user="alert_userinfo" text_zhi="东正请求授权登录"></userinfo_alert>
+    <alert_l @childFn.user="alert_tel" text_zhi="东正请求授权手机号"></alert_l>
+    <view class='sds-sh'>
+      <image class='joio-img' src="image/touxiang.png" mode='aspectFill'></image>
+      <view class='sds-sh2'>
+        <text wx:if="{{admin_zt}}">{{tstere}}</text>
+        <text wx:if="{{tstename== undefined ?false:true}}">{{tstename}}</text>
+      </view>
+    </view>
+    <block wx:if="{{admin_zt}}">
+      <view class='sys-biaoti'>管理</view>
+      <view class='sf ' bindtap="dd">
+        <view>订单管理</view>
+        <view class="zho">新增<text class='ho'>{{ddshu}}</text>人<text class='di iconfont  #icon-jiantou'></text></view>
+      </view>
+      <view class='sf' @tap="xs_btn">
+        <view>销售账户管理</view>
+        <view class="zho">{{tste}}人<text class='di iconfont  #icon-jiantou'></text></view>
+      </view>
+    </block>
+    <block wx:if="{{admin_hide}}">
+      <view class='sys-biaoti'>卡券核销</view>
+      <view class='sf' bindtap="sys">
+        <view>扫一扫核销卡券</view>
+        <text class='di iconfont  #icon-jiantou'></text>
+      </view>
+      <view class='sf' bindtap="hex">
+        <view>已核销卡券</view>
+        <view class="zho">{{texts}}次
+          <text class='di iconfont  #icon-jiantou'></text>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{admin_hide}}">
+      <view class='sys-biaoti'>我的常用</view>
+      <view class='sf' bindtap="yij">
+        <view>意见反馈</view>
+        <text class='di iconfont  #icon-jiantou'></text>
+      </view>
+      <view class='sf' bindtap="tap_tel">
+        <view>联系我们</view>
+        <view class="zho">
+          <text class='di iconfont  #icon-jiantou'></text>
+        </view>
+      </view>
+    </block>
+    <leotable che_="image/index_btm_che0.png" my_="image/index_btm_my1.png"></leotable>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import Leotable from '../components/leotable';
+  import Userinfo_alert from '../components/userinfo_alert';
+  import Alert from '../components/alert';
+  export default class wode extends wepy.page {
+    config = {
+      navigationBarTitleText: '东正金融'
+    };
+    components = {
+      leotable: Leotable
+    };
+    data = {
+      parent_data: '',
+      url_link:'',
+      // 订单管理新增人数
+      ddshu: '',
+      text: '',
+      tstere: '',
+      // 用户姓名
+      tstename: '',
+      // 销售账户管理人数
+      tste: '',
+      userinfo_alert: Userinfo_alert,
+      alert_l: Alert,
+      // 销售专员
+      admin_zt: false,
+      admin_hide: true,//核销卡券临时隐藏
+      // 已核销卡券次数
+      texts: ''
+    };
+    methods = {
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        }
+      },
+      // 销售账户管理
+      xs_btn() {
+        wx.navigateTo({
+          url: 'zhanghu'
+        });
+      },
+      alert_userinfo(e) {
+        let this_ = this;
+        let zhi = this.$parent.globalData;
+        this_.$invoke('userinfo_alert', 'chufa', false);
+        zhi.java_login(e.detail, this_.request_cs);
+      },
+      alert_tel(res) {
+        let this_ = this;
+        let zhi = this.$parent.globalData;
+        console.log(res);
+        zhi.login_telnum_iv = res.iv;
+        zhi.login_telnum_miyao = res.miyao;
+        this_.$invoke('alert_l', 'chufa', false);
+        // 查看是否授权
+        wx.getSetting({
+          success: function (res) {
+            if (res.authSetting['scope.userInfo']) {
+              // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+              wx.getUserInfo({
+                success: function (res) {
+                  zhi.java_login(res, this_.request_cs);
+                }
+              });
+            } else {
+              this_.$invoke('userinfo_alert', 'chufa', true);
+            }
+          }
+        });
+      },
+      // 我的页面跳转
+      yij() {
+        wx.navigateTo({
+          url: 'opinion'
+        });
+      },
+      dd() {
+        wx.navigateTo({
+          url: 'order'
+        });
+      },
+      hex() {
+        wx.navigateTo({
+          url: 'charge'
+        });
+      },
+      // 调用微信扫一扫
+      sys() {
+        wx.scanCode({
+          success: (res) => {
+            wx.showToast({
+              title: '成功',
+              icon: 'success',
+              duration: 2000
+            })
+            wx.navigateTo({
+              url: 'sys?qrCode=' + res.result
+            });
+          },
+          fail: (res) => {
+            wx.showToast({
+              title: '失败',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          complete: (res) => {}
+        })
+      },
+      // 客服
+      tap_tel() {
+        wx.makePhoneCall({
+          phoneNumber: '400-920-7258' //仅为示例，并非真实的电话号码
+        });
+      },
+    };
+    // 提前还款申请成功
+    getSucces () {
+      wx.showModal({
+        content: '你提交的张三的还款卡变更申请，已收到寄出材料，系统变更完成，请等待银行受理，约3-5个工作日',
+        showCancel: false,
+        confirmText: '好的',
+        success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          }
+        }
+      })
+    }
+    onLoad() {
+        this.url_link = this.$parent.globalData.url_link;
+    }
+    onShow() {
+      wx.showLoading({
+        title: '加载中'
+      });
+      let that = this;
+      that.parent_data = this.$parent.globalData;
+      let json_link = this.$parent.globalData.json_link;
+      let parent_data = this.$parent.globalData;
+      if (parent_data.access_token != '' && parent_data.access_token != undefined) {
+        wx.request({
+          url: json_link + '/api/wxapp/fi/user/index?access_token=' + parent_data.access_token,
+          data: {},
+          success: function (data) {
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 0);
+            console.log(data);
+            that.text = data.data.data;
+            that.tste = data.data.saleusercount;
+            that.tstere = data.data.userinfoJO.business_partner_nme;
+            that.tstename = data.data.userinfoJO.name;
+            // 给数据进行绑定
+            that.$apply();
+          }
+        });
+        if (this.$parent.globalData.login_zt == 0) {
+          //      金融专员请求订单数
+          that.admin_zt = true;
+          wx.request({
+            url: json_link + '/api/wxapp/reservationorder/fi/newapproderNum?access_token=' + parent_data.access_token,
+            success: function (data) {
+              console.log('订单：' + data.data.data + '个');
+              console.log(data.data.data);
+              that.ddshu = data.data.data;
+              that.$apply();
+            }
+          });
+        }
+        //核销卡券次数
+        wx.request({
+          url: that.parent_data.json_hqLink + '/userCoupon/count',
+          data: {
+            financialspecialistid: that.parent_data.financialspecialistid,
+            fiLoginToken: that.parent_data.access_token
+          },
+          success: function (data) {
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 0);
+            that.texts = data.data.data;
+            that.$apply();
+          }
+        });
+      }
+    }
+  }
+
+</script>

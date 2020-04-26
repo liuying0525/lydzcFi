@@ -1,0 +1,109 @@
+<style lang="less">
+.details_top {
+  width: 90%;
+  padding: 0 5%;
+  line-height: 100rpx;
+  font-size: 26rpx;
+  display: flex;
+  justify-content: space-between;
+  background: #eee;
+  font-weight: bold;
+}
+.details_red {
+  width: 90%;
+  padding: 0 5%;
+  line-height: 80rpx;
+  font-size: 26rpx;
+  font-weight: bold;
+}
+.details_bar {
+  width: 88%;
+  padding: 20rpx 6%;
+  background: #eee;
+  font-size: 26rpx;
+  line-height: 57rpx;
+  color: rgb(56, 56, 56);
+}
+.details_bar text {
+  margin-left: 30rpx;
+}
+.details_zi {
+  color: rgb(97, 68, 203);
+}
+.details_di {
+  width: 70rpx;
+  font-size: 22rpx;
+  line-height: 50rpx;
+  border: 2rpx rgb(0, 199, 174) solid;
+  color: rgb(0, 199, 174);
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+.oine {
+  background: #fff;
+  border-bottom: 6rpx #eee solid;
+}
+.oine .two {
+  margin-left: 60rpx;
+}
+</style>
+<template>
+     <view class="sds">
+         <view class="details_top">
+             <text>订单详情</text>
+             <text class="details_zi">审核中</text>
+         </view>
+          <view class="details_bar oine">
+             <view>当前活动：<text>信贷终审</text></view>
+             <view>审核人：<text class='two'>小白</text><text>18024243535</text></view>
+         </view>
+         <view class="details_red">申请信息</view>
+         <view class="details_bar">
+             <view>预约人：<text>小白</text><text>18024243535</text></view>
+             <view>身份证号：<text>14222435878565453</text></view>
+             <view>经销商：<text>上海澳汇</text></view>
+             <view>经销商：<text>上海澳汇</text></view>
+             <view>新车价格：<text>18454545</text>元</view>
+             <view>金融产品：<text>简化贷</text><text class="details_di">贷款</text></view>
+             <view>首付金额：<text>45445454元（20%）</text></view>
+             <view>月供：<text>45445454*（36月）</text></view>
+             <view>尾款：<text>45445454元（20%）</text></view>
+         </view>
+         <view class="details_red">订单信息</view>
+         <view class="details_bar">
+             <view>订单号：<text>14222435878565453</text></view>
+             <view>下单时间：<text>2017-12-12 12:00</text></view>
+             <view>身份证号：<text>正通集团</text></view>
+             <view>销售人员：<text>亲娃</text><text>18024243535</text></view>
+         </view>
+        
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class detailstwo extends wepy.page {
+  config = {
+    navigationBarTitleText: '订单详情'
+  };
+  components = {};
+
+  data = {
+    url_link: ''
+  };
+
+  methods = {
+          onShareAppMessage: function () {
+    return {
+      path: '/pages/detailswo'
+    }
+  },
+  
+  };
+  onLoad() {
+    let url_link = this.$parent.globalData.url_link;
+    this.url_link = url_link;
+    console.log(url_link);
+  }
+}
+</script>

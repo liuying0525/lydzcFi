@@ -1,0 +1,159 @@
+<style lang="less">
+  .authorizeBegin {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 44rpx 90rpx;
+    image {
+      display: block;
+      height: 90rpx;
+      width: 90rpx;
+      margin: 0 auto 38rpx;
+    }
+    .title {
+      font-size: 32rpx;
+      color: #6d3b90;
+      text-align: center;
+      margin-bottom: 50rpx;
+    }
+    .textBox {
+      /*height: 536rpx;*/
+      -webkit-box-shadow:0 0 20rpx 6rpx rgba(0,0,0,0.15);
+      -moz-box-shadow:0 0 20rpx 6rpx rgba(0,0,0,0.15);
+      box-shadow:0 0 20rpx 6rpx rgba(0,0,0,0.15);
+      padding: 10rpx 50rpx 30rpx;
+    }
+    .textTitle{
+      font-size: 32rpx;
+      color: #000;
+      text-align: center;
+      line-height: 90rpx;
+    }
+    .textInfo {
+      color: #5a5a5a;
+      font-size: 24rpx;
+      line-height: 36rpx;
+      max-height: 360rpx;
+      overflow: auto;
+    }
+    ::-webkit-scrollbar
+    {
+      width: 6px;
+      height: 6px;
+      background-color: #fff;
+    }
+    ::-webkit-scrollbar-thumb
+    {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+      background-color: #d9dce4;
+    }
+    .textSure {
+      margin-top: 20rpx;
+      font-size: 20rpx;
+      color: #000;
+      line-height: 40rpx;
+      checkbox {
+        transform: scale(0.7,0.7);
+      }
+    }
+    .jdsb {
+      display: block;
+      height: 150rpx;
+      width: 100%;
+      margin: 45rpx 0rpx 54rpx;
+    }
+    .beginBtn {
+      height: 70rpx;
+      line-height: 70rpx;
+      text-align: center;
+      color: #fff;
+      font-size: 32rpx;
+      -webkit-border-radius: 12rpx;
+      -moz-border-radius: 12rpx;
+      border-radius: 12rpx;
+      background: #6043ca;
+      margin: 50rpx auto 20rpx;
+    }
+    .beginBtnNo {
+      background: #bfc1c8;
+    }
+    .goBack {
+      width: 576rpx;
+      font-size: 24rpx;
+      color: #6044ca;
+      margin: 0 auto;
+      text-align: right;
+    }
+  }
+</style>
+<template>
+  <view class="authorizeBegin">
+    <image src="{{url_link?url_link + 'loginLogo.png': ''}}"></image>
+    <view class="title">
+      东正线上征信授权
+    </view>
+    <view class="textBox">
+      <view class="textTitle">
+        电子签名用户需知
+      </view>
+      <view class="textInfo">
+        电子签名用户需知电子签名用户需知电子签名用户电子签名用户需知电子签名用户需知电子签名用户需知电子签名用户需知电子签名用户需知电子签名用电子签名用户需知电子签名用户需知电子签名用户需知电子签名用户需知电子签名用户需知电子签名用电子签名用户需知电子签名用户需知电子签名用户需知电子签名用户需知电子签名用户需知电子签名用电子签名用户需知电子签名用户需知电子签名用户需知电需知电子签名用户需知电子签名用户需知电子签名用电子签名用户需知电子签名用户需知电子签名用户需知电子签名用户需知电子签名用户需知电子签名用电子签名用户需知电子签名用户需知电子签名用户需知电电子签名用户需知电子签名用户需知电子签名用户需知电
+      </view>
+      <view class="textSure">
+        <checkbox-group bindchange="checkChange">
+          <label class="checkbox">
+            <checkbox value="{{'1'}}" checked="{{agree == '1'}}" color="#6043ca"/>本人在此声明已知悉并理解电子签名用户须知
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+    <image class="jdsb" src="{{url_link?url_link+'jdsb.png':''}}"></image>
+    <view class="beginBtn {{agree == '1' ? '': 'beginBtnNo'}}" @tap="goId">开始</view>
+    <view class="goBack" @tap="goMine">返回'我的'</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import toastInfo from '../components/toastInfo'
+  export default class authorizeBegin extends wepy.page {
+    config = {
+      navigationBarTitleText: '征信授权',
+      disableScroll: true
+    }
+    data = {
+      url_link: '',
+      agree: '0'
+    };
+    components = {
+      toastInfo: toastInfo
+    };
+    methods = {
+      // 开始授权
+      begin: function () {
+
+      },
+      checkChange: function (e) {
+        this.agree = e.detail.value[0]?e.detail.value[0]:'0';
+        console.log(this.agree)
+      },
+      goId: function () {
+        if (this.agree == '1') {
+          this.$navigate('authorizeIdcard');
+        } else {
+          this.$invoke('toastInfo','modelFunc','000','请先勾选用户须知');
+        }
+      },
+      goMine: function () {
+        wx.reLaunch({
+          url: 'wode'
+        })
+      }
+    }
+    onLoad() {
+      this.url_link = this.$parent.globalData.url_link;
+    }
+  }
+</script>

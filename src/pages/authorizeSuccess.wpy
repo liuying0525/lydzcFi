@@ -1,0 +1,73 @@
+<style lang="less">
+  .cancelSuccess{
+    padding: 110rpx 90rpx;
+    .successIcon{
+      height: 128rpx;
+      width: 128rpx;
+      margin: 0 auto;
+      image{
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .successTitle{
+      font-size: 34rpx;
+      color: #000;
+      text-align: center;
+      margin: 54rpx auto 90rpx;
+    }
+    .successInfo{
+      font-size: 26rpx;
+      line-height: 40rpx;
+      text-align: center;
+    }
+    .earlyBtn{
+      width: 546rpx;
+      height: 74rpx;
+      line-height: 74rpx;
+      color: #fff;
+      background: rgb(96,68,203);
+      font-size: 30rpx;
+      -webkit-border-radius: 10rpx;
+      -moz-border-radius: 10rpx;
+      border-radius: 10rpx;
+      margin: 86rpx auto 0;
+      text-align: center;
+    }
+  }
+</style>
+<template>
+  <view class="cancelSuccess">
+    <view class="successIcon">
+      <image src="{{url_link?url_link+'/cancelS.png':''}}"></image>
+    </view>
+    <view class="successTitle">  恭喜，已完成征信授权!</view>
+    <view class="earlyBtn" @tap="goMine">回到“我的”</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class authorizeSuccess extends wepy.page {
+    config = {
+      navigationBarTitleText: '征信授权'
+    };
+    data = {
+      url_link: ''
+    };
+    methods = {
+      // 我的页面
+      goMine() {
+        this.$redirect('wode');
+      },
+      makeCall: function (phone) {
+        wx.makePhoneCall({
+          phoneNumber: phone
+        })
+      }
+    }
+    onLoad() {
+      this.url_link = this.$parent.globalData.url_link;
+    }
+  }
+</script>

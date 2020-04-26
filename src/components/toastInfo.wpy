@@ -1,0 +1,55 @@
+<script>
+  import wepy from 'wepy';
+  export default class toastInfo extends wepy.component {
+    data = {
+      infoText: ''
+    };
+    methods = {
+      // 模态框提醒
+      modelFunc: function (code, message) {
+        let that = this;
+        if (code != 'A00006') {
+          this.infoText = message;
+          wx.showModal({
+            content: that.infoText,
+            showCancel:false,
+            confirmText:'我知道了',
+            success () {
+              return false;
+            }
+          })
+        }
+      },
+      // 验证手机号格式
+      phoneReg: function (num) {
+        let pattern = /^1\d{10}$/;
+        let str = num.replace(/\s+/g, "");
+        if (!pattern.test(str)) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      // 身份证验证
+      idCardReg: function (num) {
+        let pattern = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+        let str = num.replace(/\s+/g, "");
+        if (!pattern.test(str)) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      // 银行卡验证
+      bankCardReg: function (num) {
+        let pattern = /^([1-9]{1})(\d{15}|\d{18})$/;
+        let str = num.replace(/\s+/g, "");
+        if (!pattern.test(str)) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }
+  }
+</script>

@@ -1,0 +1,268 @@
+<style lang="less">
+  .earlyList {
+    view,input{
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    padding: 130rpx 50rpx 46rpx;
+    .titles{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      text-align: center;
+      background: #fff;
+      padding: 40rpx 0 10rpx;
+      z-index: 100;
+    }
+    .title{
+      font-size: 30rpx;
+      color: #4b4b4b;
+      padding-bottom: 12rpx;
+      border-bottom: 8rpx solid #fff;
+      margin: 0 auto;
+      max-width: 120rpx;
+      flex: 1.0;
+    }
+    .activeTitle{
+      color: #6044ca;
+      border-color: #6044ca;
+    }
+    .earlyBox {
+      -webkit-box-shadow:0 0 16rpx 6rpx rgba(0,0,0,0.1);
+      -moz-box-shadow:0 0 16rpx 6rpx rgba(0,0,0,0.1);
+      box-shadow:0 0 16rpx 6rpx rgba(0,0,0,0.1);
+      margin-bottom: 34rpx;
+    }
+    .earlyItem{
+      position: relative;
+      padding: 38rpx 58rpx 50rpx;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      .textImage{
+        width: 220rpx;
+        height: 148rpx;
+        margin-bottom: 44rpx;
+        image{
+          display: block;
+          height: 100%;
+          width: 100%;
+        }
+      }
+      .textItem{
+        width: 100%;
+        font-size: 26rpx;
+        margin-bottom: 44rpx;
+      }
+      .changeBtn{
+        height: 40rpx;
+        line-height: 40rpx;
+        color: #fff;
+        background: #6044cb;
+        text-align: center;
+        -webkit-border-radius: 6rpx;
+        -moz-border-radius: 6rpx;
+        border-radius: 6rpx;
+        margin-right: 66rpx;
+        padding: 4rpx 10rpx;
+        border: 1px solid #6044cb;
+      }
+      .cancelBtn{
+        .changeBtn;
+        border: 1px solid #6044cb;
+        color: #6044cb;
+        background: #fff;
+      }
+      .itemState {
+        position: absolute;
+        right: 66rpx;
+        top:190rpx;
+        image{
+          height:105rpx ;
+          width: 139rpx;
+        }
+      }
+    }
+    .cancelReason{
+      background: #f2f4f8;
+      padding: 38rpx 58rpx;
+      .textItem{
+        width: 100%;
+        font-size: 26rpx;
+        margin-bottom: 0rpx;
+      }
+    }
+  }
+  .createOne{
+    height: 82rpx;
+    line-height: 82rpx;
+    position: fixed;
+    bottom: 0;
+    color: #fff;
+    background: #6144cb;
+    font-size: 30rpx;
+    width: 100%;
+    text-align: center;
+    .addIcon{
+      color: #fff;
+      font-size: 40rpx;
+      font-weight: bolder;
+      padding-right: 10rpx;
+    }
+  }
+  .noData {
+    width: 500rpx;
+    margin: 300rpx auto;
+    image {
+      display: block;
+      height: 252rpx;
+      width: 309rpx;
+      margin: 0 auto;
+    }
+    .textInfo {
+      text-align: center;
+      font-size: 36rpx;
+      line-height: 120rpx;
+    }
+  }
+</style>
+<template>
+  <view class="earlyList">
+    <view class="titles">
+      <view class="title {{state==1?'activeTitle':''}}" @tap="changeState(1)">受理中</view>
+      <view class="title {{state==2?'activeTitle':''}}"  @tap="changeState(2)">已受理</view>
+      <view class="title {{state==3?'activeTitle':''}}"  @tap="changeState(3)">已取消</view>
+    </view>
+    <view class="earlyBox" wx:for="{{list}}">
+      <view class="earlyItem">
+        <view class="textItem">提交时间 ：{{item.createtime}}</view>
+        <view class="textImage">
+          <image src="{{item.cardnumurl}}" mode="aspectFit"></image>
+        </view>
+        <view class="textItem">姓名 : {{item.username}}</view>
+        <view class="textItem">手机号 : {{item.telnum}}</view>
+        <view class="textItem">新卡卡号 : {{item.bankcard}}</view>
+        <view class="textItem">合同信息 : {{item.contractnum}} {{item.carmodel}}</view>
+        <view class="textItem" style="margin: 0;">
+          <!--<text class="changeBtn" @tap="edit({{item}})" wx:if="{{item.status == 1}}">修改申请</text>-->
+          <text class="cancelBtn" wx:if="{{state == 1}}" @tap="cancelSubmit({{item.id}})">取消申请</text>
+        </view>
+        <view class="itemState">
+          <image src="{{url_link?url_link+ states[state - 1]:''}}"></image>
+        </view>
+      </view>
+      <view class="cancelReason" wx:if="{{state == 3}}">
+        <view class="textItem">取消类型  ：  {{item.createtime}}</view>
+        <view class="textItem" style="margin-top: 28rpx;">取消原因  ：  {{item.createtime}}</view>
+      </view>
+    </view>
+    <view class="noData" wx:if="{{noData_show}}">
+      <image src="{{url_link?url_link + '/noData.png':''}}" mode="aspectFit"></image>
+      <view class="textInfo">啊哦，暂无记录~</view>
+    </view>
+  </view>
+  <view class="createOne" @tap="add"><text class="addIcon">+</text>新建申请</view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import toastInfo from '../components/toastInfo'
+  export default class cardList extends wepy.page {
+    config = {
+      navigationBarTitleText: '还款卡变更'
+    };
+    components = {
+      toastInfo: toastInfo
+    };
+    data = {
+      url_link: '',
+      parent_data: '',
+      states: ['earlySLZ.png','earlyYSL.png','earlyYQX.png'],
+      state: 1,
+      list: [], // 列表
+      currentNum: 1 // 当前页
+    };
+    computed = {
+      // 缺省压面是否显示
+      noData_show: function () {
+        if (this.list.length == 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    };
+    methods = {
+      changeState: function(state) {
+        this.state = state;
+        this.list = [];
+        this.currentNum = 1;
+        this.getList();
+      },
+      // 新建申请
+      add: function () {
+        this.$navigate('cardPerson');
+      }
+    };
+    getList() {
+      let that = this;
+      wx.showLoading({
+        title: '加载中',
+      });
+      wx.request({
+        url: that.parent_data.json_link + '/api/wxapp/fi/repaymentcard/list?access_token=' + that.parent_data.access_token,
+        data: {
+          page: that.currentNum,
+          pagesize: 10,
+          type: that.state
+        },
+        success: function (res) {
+          if (res.data.code == 'A00006') {
+            wx.hideLoading();
+            if (res.data.data.length > 0) {
+              that.list = that.list .concat(res.data.data);
+              that.$apply();
+            } else {
+              if (that.currentNum == 1) {
+                that.list = res.data.data;
+                that.$apply();
+              } else {
+                that.currentNum = that.currentNum <= 1 ? 1: that.currentNum- 1;
+                wx.showToast({
+                  title: '加载全部',
+                  icon: 'success',
+                  duration: 2000
+                })
+              }
+                return false;
+            }
+          } else {
+            wx.hideLoading();
+            that.$invoke('toastInfo', 'modelFunc', res.data.code, res.data.errmsg);
+          }
+        }
+      })
+    }
+    onPullDownRefresh() {
+      this.list = [];
+      this.currentNum = 1;
+      this.getList();
+    }
+    onReachBottom() {
+      this.currentNum = this.currentNum + 1;
+      this.getList();
+    }
+    onLoad() {
+      let that = this;
+      that.url_link = that.$parent.globalData.url_link;
+      that.parent_data = that.$parent.globalData;
+    }
+    onShow() {
+      this.list = [];
+      this.currentNum = 1;
+      this.getList();
+    }
+  }
+</script>

@@ -1,0 +1,147 @@
+<style lang="less">
+  .authorizeFace {
+    .titleImg {
+      display: block;
+      height: 186rpx;
+      width: 100%;
+      margin-bottom: 6rpx;
+    }
+    .textTitle{
+      font-size: 32rpx;
+      color: #000;
+      text-align: center;
+      line-height: 90rpx;
+    }
+    .textContent {
+      /*height: 670rpx;*/
+      width: 504rpx;
+      margin: 0 auto;
+      border: 1rpx solid #eee;
+      padding: 38rpx 30rpx;
+      .title{
+        font-size: 34rpx;
+        color: #6043ca;
+        text-align: center;
+      }
+      .texts {
+        max-height: 320rpx;
+        line-height: 40rpx;
+        font-size: 22rpx;
+        color: #5a5a5a;
+        overflow: auto;
+        margin-top: 30rpx;
+      }
+      .userInfo{
+        padding: 30rpx 0 0;
+        line-height: 36rpx;
+        font-size: 20rpx;
+      }
+      .textSure {
+        margin-top: 20rpx;
+        font-size: 20rpx;
+        color: #000;
+        line-height: 40rpx;
+        checkbox {
+          transform: scale(0.7,0.7);
+        }
+      }
+    }
+    ::-webkit-scrollbar
+    {
+      width: 6px;
+      height: 6px;
+      background-color: #fff;
+    }
+    ::-webkit-scrollbar-thumb
+    {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+      background-color: #d9dce4;
+    }
+    .beginBtn {
+      width: 576rpx;
+      margin: 50rpx auto 0;
+      height: 70rpx;
+      line-height: 70rpx;
+      text-align: center;
+      color: #fff;
+      font-size: 32rpx;
+      -webkit-border-radius: 12rpx;
+      -moz-border-radius: 12rpx;
+      border-radius: 12rpx;
+      background: #6043ca;
+    }
+    .beginBtnNo {
+      background: #bfc1c8;
+    }
+    .goBack {
+      width: 576rpx;
+      font-size: 24rpx;
+      color: #6044ca;
+      margin: 20rpx auto 0;
+      text-align: right;
+    }
+  }
+</style>
+<template>
+  <view class="authorizeFace">
+    <image class="titleImg" src="{{url_link ? url_link + 'qywc.png' : ''}}"></image>
+    <view class="textTitle">签约完成授权</view>
+    <view class="textContent">
+      <view class="title">个人征信授权书</view>
+      <view class="texts">
+        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内
+      </view>
+      <view class="userInfo">
+        <view>姓名：某某某</view>
+        <view>身份证号：666666666666666</view>
+        <view>手机号：6666666666</view>
+      </view>
+      <view class="textSure">
+        <checkbox-group bindchange="checkChange">
+          <label class="checkbox">
+            <checkbox value="{{'1'}}" checked="{{agree == '1'}}" color="#6043ca"/>本人在此声明已知悉并理解上述授权条款
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+    <view class="beginBtn {{agree == '1' ? '': 'beginBtnNo'}}" @tap="goSuccess">提交</view>
+    <view class="goBack" @tap="goMine">返回'我的'</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import toastInfo from '../components/toastInfo'
+  export default class authorizeComplete extends wepy.page {
+    config = {
+      navigationBarTitleText: '征信授权',
+      disableScroll: true
+    };
+    data = {
+      url_link: '',
+      agree: '1'
+    };
+    components = {
+      toastInfo:toastInfo
+    };
+    methods = {
+      goMine: function () {
+        wx.reLaunch({
+          url: 'wode'
+        })
+      },
+      checkChange: function (e) {
+        this.agree = e.detail.value[0]?e.detail.value[0]:'0';
+        console.log(this.agree)
+      },
+      goSuccess: function () {
+        wx.reLaunch({
+          url: 'authorizeSuccess'
+        })
+      }
+    };
+    onLoad() {
+      this.url_link = this.$parent.globalData.url_link;
+    }
+  }
+</script>

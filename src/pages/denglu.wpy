@@ -1,0 +1,159 @@
+<style lang="less">
+  /**index.wxss**/
+
+  page {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .opinion-textarea {
+    //   width: 100%;
+    width: calc(~'100% - 24rpx');
+    height: 30pt;
+    border: 1px rgb(92, 69, 195) solid;
+    margin: 0 0rpx 41rpx 0rpx;
+    font-size: 10pt;
+    line-height: 34pt;
+    border-radius: 4pt;
+    padding-left: 20rpx;
+  }
+
+  .change-mima {
+    width: calc(~'100% - 24rpx');
+    height: 30pt;
+    border: 1px rgb(92, 69, 195) solid;
+    font-size: 10pt;
+    line-height: 34pt;
+    border-radius: 4pt;
+    padding-left: 20rpx;
+  }
+
+  .change-kuan {
+    display: flex;
+    margin-bottom: 34rpx;
+  }
+
+  .opinion-button {
+    width: 100%;
+    background: rgb(92, 69, 195);
+    color: #fff;
+  }
+
+  .dw {
+    display: flex;
+    align-items: center;
+    padding: 20%;
+  }
+
+  .joio-img1 {
+    width: 140rpx;
+    height: 150rpx;
+    margin: 0 auto;
+  }
+
+  .xs {
+    margin-bottom: 40rpx;
+    font-size: 28rpx;
+    color: rgb(92, 69, 195);
+    text-decoration: underline
+  }
+
+  .ds {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40rpx;
+  }
+
+</style>
+<template>
+  <view class="testresult">
+    <!-- 授权弹框 -->
+    <view class='dw'>
+      <image class='joio-img1' src="image/logo.png" mode='widthFix'></image>
+    </view>
+    <view class="opinion">
+      <form bindsubmit="formSubmit">
+        <input name="code" type='number' placeholder="请输入用户名" maxlength='11' class='opinion-textarea' bindinput="userNameInput" value="{{code}}" placeholder-class="opinion-center"/>
+        <view class='change-kuan'>
+          <input type="password" name="password" placeholder="请输入密码" bindinput="passWdInput" placeholder-class="opinion-center" value="{{password}}" class='change-mima'/>
+          <!-- oncopy="return false" onpaste="return false" name="pwd" -->
+        </view>
+        <button formType="submit" class='opinion-button' bindtap="urlPersonal">登录</button>
+        <view class="ds">
+          <view @tap="xs" class="xs">销售人员登录</view>
+          <view @tap="tap_tel" class="xs">联系客服</view>
+        </view>
+      </form>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  // 引用组件
+  export default class denglu extends wepy.page {
+    config = {
+      navigationBarTitleText: '金融专员登录'
+    };
+    components = {};
+
+    data = {
+      // 获取code判断
+      code: '',//9806301
+      // 输入密码赋值
+      password: '',//000000
+      // 全局接口赋值
+      json_link: '',
+    };
+
+    methods = {
+      // 联系客服
+      tap_tel() {
+        wx.makePhoneCall({
+          phoneNumber: '400-920-7258' //仅为示例，并非真实的电话号码
+        });
+      },
+      // 分享
+      onShareAppMessage: function () {
+        return {
+          path: '/pages/denglu'
+        }
+      },
+      // 切换销售账户登录
+      xs() {
+        wx.redirectTo({
+          url: 'denglu2'
+        });
+      },
+      // 获取用户名
+      userNameInput: function (e) {
+        this.code = e.detail.value;
+      },
+      // 获取密码
+      passWdInput: function (e) {
+        this.password = e.detail.value;
+      },
+      // 登录
+      urlPersonal: function () {
+        wx.showLoading({
+          title: '加载中'
+        });
+        console.log('用户名：' + this.data.code + ' 密码：' + this.data.password);
+        // 用户输入的用户名密码赋值给根目录
+        this.$parent.globalData.code = this.data.code;
+        this.$parent.globalData.password = this.data.password;
+        // 调用app定义的登录接口
+        this.$parent.globalData.deng_login();
+        let json_link = this.$parent.globalData.json_link;
+        console.log(json_link)
+        let this_ = this;
+
+
+
+      }
+    };
+    onLoad() {
+    }
+  }
+
+</script>
